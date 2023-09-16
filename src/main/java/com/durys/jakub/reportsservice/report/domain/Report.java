@@ -35,12 +35,24 @@ public class Report {
         return Report.builder()
                 .reportName(reportName)
                 .subsystem(subsystem)
-                .status(new ReportCreationStatus(ReportCreationStatus.Status.NEW, LocalDateTime.now()))
+                .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
     }
 
-    public Report withStatus(ReportCreationStatus status) {
-        this.status = status;
+
+    public Report markAsFailed() {
+        this.status = new ReportCreationStatus(ReportCreationStatus.Status.FAILURE, LocalDateTime.now());
+        return this;
+    }
+
+    public Report markAsSucceeded() {
+        this.status = new ReportCreationStatus(ReportCreationStatus.Status.SUCCESS, LocalDateTime.now());
+        return this;
+    }
+
+    public Report with(String fileName, byte[] file) {
+        this.file = file;
+        this.fileName = fileName;
         return this;
     }
 
