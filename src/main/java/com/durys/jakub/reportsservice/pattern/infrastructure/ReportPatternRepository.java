@@ -1,6 +1,7 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -15,5 +16,5 @@ public interface ReportPatternRepository extends CrudRepository<ReportPattern, L
            select new com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo(p.informations.name, p.informations.description, p.informations.subsystem)
            from ReportPattern p where p.informations.name = :reportName and p.informations.subsystem = :subsystem
            """)
-    Optional<byte[]> patternInformations(String reportName, String subsystem);
+    Optional<ReportPatternInfo> patternInformations(String reportName, String subsystem);
 }

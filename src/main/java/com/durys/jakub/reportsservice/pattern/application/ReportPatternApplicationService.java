@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,11 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
 
         return new ByteArrayInputStream(bytes);
+    }
+
+    public ReportPatternInfo reportPatternInfo(String name, String subsystem) {
+        return patternRepository.patternInformations(name, subsystem)
+                .orElseThrow(RuntimeException::new);
     }
 
 }
