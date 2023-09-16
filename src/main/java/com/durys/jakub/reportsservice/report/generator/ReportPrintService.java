@@ -1,0 +1,16 @@
+package com.durys.jakub.reportsservice.report.generator;
+
+import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
+class ReportPrintService {
+
+    static byte[] print(JasperPrint report, ReportFormat format) throws JRException {
+        return switch (format) {
+            case PDF -> JasperExportManager.exportReportToPdf(report);
+        };
+    }
+
+}

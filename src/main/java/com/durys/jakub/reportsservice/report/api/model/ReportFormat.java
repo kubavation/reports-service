@@ -1,8 +1,7 @@
 package com.durys.jakub.reportsservice.report.api.model;
 
 public enum ReportFormat {
-    PDF("pdf"),
-    HTML("html");
+    PDF("pdf");
 
     private final String format;
 
