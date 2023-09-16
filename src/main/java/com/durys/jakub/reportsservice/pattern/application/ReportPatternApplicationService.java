@@ -15,11 +15,11 @@ public class ReportPatternApplicationService {
 
     private final ReportPatternRepository patternRepository;
 
-    public InputStream pattern(String name, String subsystem) {
+    public InputStream filePattern(String name, String subsystem) {
 
         log.info("loading report pattern of name: {} and subsystem: {}", name, subsystem);
 
-        byte[] bytes = patternRepository.patternOf(name, subsystem)
+        byte[] bytes = patternRepository.filePatternOf(name, subsystem)
                 .orElseThrow(RuntimeException::new);
 
         return new ByteArrayInputStream(bytes);
