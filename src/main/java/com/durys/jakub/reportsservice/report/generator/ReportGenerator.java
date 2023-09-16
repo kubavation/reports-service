@@ -19,7 +19,7 @@ public class ReportGenerator {
     public GeneratedReport generate(String reportName, String subsystem,
                                     ReportParams reportParams, ReportFormat format) throws JRException {
 
-        InputStream patternIS = reportPatternService.pattern(reportName, subsystem);
+        InputStream patternIS = reportPatternService.filePattern(reportName, subsystem);
 
         JasperReport report = JasperCompileManager.compileReport(patternIS);
 
