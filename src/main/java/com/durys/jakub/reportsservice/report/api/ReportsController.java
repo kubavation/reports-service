@@ -24,7 +24,7 @@ public class ReportsController {
 
     @PostMapping("/{subsystem}/{reportName}")
     public ResponseEntity<Resource> generate(@PathVariable String subsystem, @PathVariable String reportName,
-                                             @RequestParam(name = "format", value = "PDF") ReportFormat format,
+                                             @RequestParam(name = "format", value = "PDF", required = false) ReportFormat format,
                                              @RequestBody ReportParams params) throws JRException {
 
         GeneratedReport generated = reportGenerator.generate(reportName, subsystem, params, format);
