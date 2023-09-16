@@ -22,7 +22,7 @@ public class ReportsController {
 
     private final ReportGenerator reportGenerator;
 
-    @PostMapping("/{subsystem}/{reportName}")
+    @PostMapping("/generate/{subsystem}/{reportName}")
     public ResponseEntity<Resource> generate(@PathVariable String subsystem, @PathVariable String reportName,
                                              @RequestParam(name = "format", value = "PDF", required = false) ReportFormat format,
                                              @RequestBody ReportParams params) throws JRException {
