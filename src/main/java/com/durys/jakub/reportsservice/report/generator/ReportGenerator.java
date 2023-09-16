@@ -1,13 +1,13 @@
 package com.durys.jakub.reportsservice.report.generator;
 
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
-import com.durys.jakub.reportsservice.report.api.ReportParams;
+import com.durys.jakub.reportsservice.report.api.model.ReportParams;
+import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.HashMap;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +15,8 @@ public class ReportGenerator {
 
     private final ReportPatternApplicationService reportPatternService;
 
-    public byte[] generate(String reportName, String subsystem, ReportParams reportParams) throws JRException {
+    public GeneratedReport generate(String reportName, String subsystem,
+                                    ReportParams reportParams, String format) throws JRException {
 
         InputStream patternIS = reportPatternService.pattern(reportName, subsystem);
 
@@ -29,7 +30,7 @@ public class ReportGenerator {
 
         byte[] result = JasperExportManager.exportReportToPdf(generated);
 
-        return result;
+        return new GeneratedReport(result, reportName, "PDF"); //todo
     }
 
 }

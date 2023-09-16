@@ -1,6 +1,9 @@
 package com.durys.jakub.reportsservice.report.api;
 
+import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
+import com.durys.jakub.reportsservice.report.api.model.ReportParams;
 import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
+import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,14 +21,15 @@ public class ReportsController {
 
     @PostMapping("/{subsystem}/{reportName}")
     public ResponseEntity<Resource> generate(@PathVariable String subsystem, @PathVariable String reportName,
+                                             @RequestParam(name = "format", value = "PDF") ReportFormat format,
                                              @RequestBody ReportParams params) throws JRException {
 
-        byte[] generated = reportGenerator.generate(reportName, subsystem, params);
+        GeneratedReport generated = reportGenerator.generate(reportName, subsystem, params, format);
 
         return ResponseEntity.ok()
                 .headers(new HttpHeaders())
-                .contentLength(generated.length)
+                .contentLength(generated.file().length)
                 .contentType(null) //todo
-                .body(new ByteArrayResource(generated));
+                .body(new ByteArrayResource(generated.file()));
     }
 }

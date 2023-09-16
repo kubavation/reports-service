@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.report.api;
+package com.durys.jakub.reportsservice.report.api.model;
 
 import lombok.Data;
 
