@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Embeddable
-public class ReportCreationStatus {
+class ReportCreationStatus {
 
     public enum Status {
         NEW,

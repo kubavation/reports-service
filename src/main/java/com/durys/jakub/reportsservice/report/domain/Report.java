@@ -12,7 +12,7 @@ public class Report {
     private Long id;
     private String fileName;
     private byte[] file;
-    
+
     @Embedded
     private ReportCreationStatus status;
 
