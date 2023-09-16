@@ -7,10 +7,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -20,8 +17,11 @@ public class ReportsController {
     private final ReportGenerator reportGenerator;
 
     @PostMapping("/{subsystem}/{reportName}")
-    public ResponseEntity<Resource> generate(@PathVariable String subsystem, @PathVariable String reportName) throws JRException {
-        byte[] generated = reportGenerator.generate(reportName, subsystem);
+    public ResponseEntity<Resource> generate(@PathVariable String subsystem, @PathVariable String reportName,
+                                             @RequestBody ReportParams params) throws JRException {
+
+        byte[] generated = reportGenerator.generate(reportName, subsystem, params);
+
         return ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .contentLength(generated.length)
