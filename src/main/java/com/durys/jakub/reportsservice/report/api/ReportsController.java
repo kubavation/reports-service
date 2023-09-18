@@ -1,12 +1,13 @@
 package com.durys.jakub.reportsservice.report.api;
 
-import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
-import com.durys.jakub.reportsservice.report.api.model.ReportParams;
+import com.durys.jakub.reportsservice.report.api.model.ReportCreation;
+import com.durys.jakub.reportsservice.report.api.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -22,12 +24,11 @@ public class ReportsController {
 
     private final ReportGenerator reportGenerator;
 
-    @PostMapping("/generate/{subsystem}/{reportName}")
-    public ResponseEntity<Resource> generate(@PathVariable String subsystem, @PathVariable String reportName,
-                                             @RequestParam(name = "format", value = "PDF", required = false) ReportFormat format,
-                                             @RequestBody ReportParams params) throws JRException {
+    @PostMapping("/generation")
+    public ResponseEntity<Resource> generate(@RequestBody ReportCreation report) throws JRException {
 
-        GeneratedReport generated = reportGenerator.generate(reportName, subsystem, params, format);
+        GeneratedReport generated = reportGenerator.generate(report.getReportName(), report.getSubsystem(),
+                report.getParameters(), report.getFormat());
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))
@@ -35,6 +36,12 @@ public class ReportsController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(generated.file()));
     }
+
+    @PostMapping("/scheduling")
+    public void schedule(@RequestBody ScheduleReportCreation scheduledReport) {
+        log.info("todo");
+    }
+
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     static class ReportHeadersFactory {
