@@ -1,10 +1,13 @@
 package com.durys.jakub.reportsservice.report.generator.handler;
 
+import com.durys.jakub.reportsservice.notification.Notifications;
+import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
-import com.durys.jakub.reportsservice.report.scheduling.event.ScheduleReportGenerationEvent;
+import com.durys.jakub.reportsservice.report.scheduling.event.GenerateScheduledReportEvent;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -17,23 +20,25 @@ public class ScheduleReportGenerationHandler {
 
     private final ReportGenerator reportGenerator;
     private final ReportRepository reportRepository;
+    private final Notifications notifications;
 
     @EventListener
     @Async
-    public void handle(ScheduleReportGenerationEvent event) {
+    public void handle(GenerateScheduledReportEvent event) {
 
-        Report report = reportRepository.findById(event.reportId())
+        Report report = reportRepository.find(event.reportId())
                 .orElseThrow(RuntimeException::new);
 
-        generate(report, event)
-                .peek(rep -> System.out.println("todo"))
-                .orElseRun(rep -> System.out.println("todo")); //todo notifications
+        generate(report)
+                .peek(rep -> notifications.send(rep.getTenantId(), "TODO"))
+                .orElseRun(rep -> notifications.send(rep.getTenantId(), "TODO"));
 
     }
 
-    private Either<Report, Report> generate(Report report, ScheduleReportGenerationEvent event) {
+    private Either<Report, Report> generate(Report report) {
         try {
-            GeneratedReport generated = reportGenerator.generate(event.reportName(), event.subsystem(), event.params(), event.format());
+            final ReportPatternInfo info = report.getPatternInformations();
+            GeneratedReport generated = reportGenerator.generate(info.getName(), info.getSubsystem(), report.params(), ReportFormat.valueOf(report.getFormat()));
             return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
         } catch (Exception e) {
             return Either.left(reportRepository.save(report.markAsFailed()));

@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import jakarta.persistence.*;
 import lombok.Data;

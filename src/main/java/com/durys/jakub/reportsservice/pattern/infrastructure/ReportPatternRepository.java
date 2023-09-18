@@ -1,7 +1,7 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

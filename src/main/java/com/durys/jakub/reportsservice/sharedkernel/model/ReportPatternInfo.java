@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.pattern.domain;
+package com.durys.jakub.reportsservice.sharedkernel.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Data;

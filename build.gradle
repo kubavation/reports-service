@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'net.sf.jasperreports:jasperreports:6.20.6'
 	implementation 'io.vavr:vavr:0.10.4'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'

@@ -1,13 +1,11 @@
 package com.durys.jakub.reportsservice.report.scheduling;
 
-import com.durys.jakub.reportsservice.event.EventPublisher;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.report.scheduling.domain.ScheduledReport;
-import com.durys.jakub.reportsservice.report.scheduling.event.ScheduleReportGenerationEvent;
 import com.durys.jakub.reportsservice.report.scheduling.infrastructure.ScheduledReportsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +29,10 @@ public class ReportScheduledGeneratorService {
 
         ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
 
-        Report report = reportRepository.save(Report.instance(pattern.getName(), pattern.getSubsystem()));
+        Report report = reportRepository.save(
+                Report.instanceOf(pattern, format.format(), UUID.randomUUID()) //todo get from token
+                        .withParameters(reportParams)
+        );
 
         scheduledReportsRepository.save(new ScheduledReport(report.getId(), at));
     }

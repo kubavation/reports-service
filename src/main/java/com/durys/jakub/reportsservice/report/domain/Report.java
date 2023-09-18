@@ -1,15 +1,17 @@
 package com.durys.jakub.reportsservice.report.domain;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -24,19 +26,35 @@ public class Report {
     private String fileName;
     private byte[] file;
 
-    private String reportName;
-    private String subsystem;
+    @Embedded
+    private ReportPatternInfo patternInformations;
+    private String format;
 
     @Embedded
     private ReportCreationStatus status;
 
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ReportParameter> parameters;
 
-    public static Report instance(String reportName, String subsystem) {
+    @Column(name = "TENANT_ID")
+    private UUID tenantId;
+
+
+    public static Report instanceOf(ReportPatternInfo patternInformations, String format, UUID author) {
         return Report.builder()
-                .reportName(reportName)
-                .subsystem(subsystem)
+                .patternInformations(patternInformations)
+                .format(format)
+                .tenantId(author)
                 .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
+    }
+
+    public Report withParameters(Map<String, Object> parameters) {
+        this.parameters = parameters.entrySet()
+                .stream()
+                .map(entry -> new ReportParameter(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toSet());
+        return this;
     }
 
 
@@ -54,6 +72,11 @@ public class Report {
         this.file = file;
         this.fileName = fileName;
         return this;
+    }
+
+    public Map<String, Object> params() {
+        return parameters.stream()
+                .collect(Collectors.toMap(ReportParameter::getName, ReportParameter::getValue));
     }
 
 }
