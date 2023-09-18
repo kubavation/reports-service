@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class ReportScheduledGeneratorService {
         ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
 
         Report report = reportRepository.save(
-                Report.instanceOf(pattern, format.format())
+                Report.instanceOf(pattern, format.format(), UUID.randomUUID()) //todo get from token
                         .withParameters(reportParams)
         );
 

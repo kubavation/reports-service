@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
@@ -35,11 +36,15 @@ public class Report {
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReportParameter> parameters;
 
+    @Column(name = "TENANT_ID")
+    private UUID tenantId;
 
-    public static Report instanceOf(ReportPatternInfo patternInformations, String format) {
+
+    public static Report instanceOf(ReportPatternInfo patternInformations, String format, UUID author) {
         return Report.builder()
                 .patternInformations(patternInformations)
                 .format(format)
+                .tenantId(author)
                 .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
     }
