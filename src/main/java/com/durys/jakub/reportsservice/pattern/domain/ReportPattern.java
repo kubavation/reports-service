@@ -3,6 +3,8 @@ package com.durys.jakub.reportsservice.pattern.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Entity
 public class ReportPattern {
@@ -15,4 +17,9 @@ public class ReportPattern {
     private ReportPatternInfo informations;
     private byte[] file;
 
+    @OneToMany(
+            mappedBy = "pattern",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<ReportPatternParameter> parameters;
 }
