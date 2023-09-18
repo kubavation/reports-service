@@ -22,4 +22,9 @@ public class ScheduledReport {
     private Long reportId;
 
     private LocalDateTime at;
+
+    public ScheduledReport(Long reportId, LocalDateTime at) {
+        this.reportId = reportId;
+        this.at = at;
+    }
 }
