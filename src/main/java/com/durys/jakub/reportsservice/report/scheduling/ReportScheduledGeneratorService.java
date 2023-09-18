@@ -1,13 +1,11 @@
 package com.durys.jakub.reportsservice.report.scheduling;
 
-import com.durys.jakub.reportsservice.event.EventPublisher;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.report.scheduling.domain.ScheduledReport;
-import com.durys.jakub.reportsservice.report.scheduling.event.ScheduleReportGenerationEvent;
 import com.durys.jakub.reportsservice.report.scheduling.infrastructure.ScheduledReportsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

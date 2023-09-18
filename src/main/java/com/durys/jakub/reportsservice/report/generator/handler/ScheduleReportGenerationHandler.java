@@ -4,7 +4,7 @@ import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
-import com.durys.jakub.reportsservice.report.scheduling.event.ScheduleReportGenerationEvent;
+import com.durys.jakub.reportsservice.report.scheduling.event.GenerateScheduledReportEvent;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -20,7 +20,7 @@ public class ScheduleReportGenerationHandler {
 
     @EventListener
     @Async
-    public void handle(ScheduleReportGenerationEvent event) {
+    public void handle(GenerateScheduledReportEvent event) {
 
         Report report = reportRepository.findById(event.reportId())
                 .orElseThrow(RuntimeException::new);
@@ -31,7 +31,7 @@ public class ScheduleReportGenerationHandler {
 
     }
 
-    private Either<Report, Report> generate(Report report, ScheduleReportGenerationEvent event) {
+    private Either<Report, Report> generate(Report report, GenerateScheduledReportEvent event) {
         try {
             GeneratedReport generated = reportGenerator.generate(event.reportName(), event.subsystem(), event.params(), event.format());
             return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
