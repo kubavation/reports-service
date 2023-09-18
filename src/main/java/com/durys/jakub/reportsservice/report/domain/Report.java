@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -42,6 +44,14 @@ public class Report {
                 .build();
     }
 
+    public Report withParameters(Map<String, Object> parameters) {
+        this.parameters = parameters.entrySet()
+                .stream()
+                .map(entry -> new ReportParameter(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toSet());
+        return this;
+    }
+
 
     public Report markAsFailed() {
         this.status = new ReportCreationStatus(ReportCreationStatus.Status.FAILURE, LocalDateTime.now());
@@ -57,6 +67,11 @@ public class Report {
         this.file = file;
         this.fileName = fileName;
         return this;
+    }
+
+    public Map<String, Object> params() {
+        return parameters.stream()
+                .collect(Collectors.toMap(ReportParameter::getName, ReportParameter::getValue));
     }
 
 }

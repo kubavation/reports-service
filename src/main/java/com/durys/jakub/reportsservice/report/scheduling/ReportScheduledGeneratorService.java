@@ -29,7 +29,9 @@ public class ReportScheduledGeneratorService {
         ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
 
         Report report = reportRepository.save(
-                Report.instanceOf(pattern, format.format()));
+                Report.instanceOf(pattern, format.format())
+                        .withParameters(reportParams)
+        );
 
         scheduledReportsRepository.save(new ScheduledReport(report.getId(), at));
     }

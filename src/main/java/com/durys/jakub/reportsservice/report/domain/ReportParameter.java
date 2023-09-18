@@ -2,9 +2,11 @@ package com.durys.jakub.reportsservice.report.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class ReportParameter {
 
     @Id
@@ -18,4 +20,8 @@ public class ReportParameter {
     @JoinColumn(name = "pattern_id")
     private Report report;
 
+    public ReportParameter(String name, Object value) {
+        this.name = name;
+        this.value = value;
+    }
 }
