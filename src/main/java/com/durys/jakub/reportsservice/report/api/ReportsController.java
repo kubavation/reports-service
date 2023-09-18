@@ -1,11 +1,13 @@
 package com.durys.jakub.reportsservice.report.api;
 
 import com.durys.jakub.reportsservice.report.api.model.ReportCreation;
+import com.durys.jakub.reportsservice.report.api.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -32,6 +35,11 @@ public class ReportsController {
                 .contentLength(generated.file().length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(generated.file()));
+    }
+
+    @PostMapping("/scheduling")
+    public void schedule(@RequestBody ScheduleReportCreation scheduledReport) {
+        log.info("todo");
     }
 
 
