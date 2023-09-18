@@ -1,5 +1,7 @@
 package com.durys.jakub.reportsservice.report.domain;
 
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,17 +26,18 @@ public class Report {
     private String fileName;
     private byte[] file;
 
-    private String reportName;
-    private String subsystem;
+    @Embedded
+    private ReportPatternInfo patternInformations;
+    private String format;
 
     @Embedded
     private ReportCreationStatus status;
 
 
-    public static Report instance(String reportName, String subsystem) {
+    public static Report instanceOf(ReportPatternInfo patternInformations, String format) {
         return Report.builder()
-                .reportName(reportName)
-                .subsystem(subsystem)
+                .patternInformations(patternInformations)
+                .format(format)
                 .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
     }

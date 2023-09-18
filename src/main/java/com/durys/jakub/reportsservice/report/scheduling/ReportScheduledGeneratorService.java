@@ -1,7 +1,7 @@
 package com.durys.jakub.reportsservice.report.scheduling;
 
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
@@ -28,7 +28,8 @@ public class ReportScheduledGeneratorService {
 
         ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
 
-        Report report = reportRepository.save(Report.instance(pattern.getName(), pattern.getSubsystem()));
+        Report report = reportRepository.save(
+                Report.instanceOf(pattern, format.format()));
 
         scheduledReportsRepository.save(new ScheduledReport(report.getId(), at));
     }

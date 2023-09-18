@@ -34,7 +34,8 @@ public class ScheduledReportsService {
       log.info("Scheduled reports count {}", scheduled.size());
 
       scheduled.stream()
-              .forEach(scheduledReport -> eventPublisher.emit(new GenerateScheduledReportEvent(scheduledReport.getReportId())));
+              .forEach(scheduledReport -> eventPublisher.emit(
+                      new GenerateScheduledReportEvent(scheduledReport.getReportId())));
 
     }
 

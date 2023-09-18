@@ -1,6 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
