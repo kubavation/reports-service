@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -22,13 +23,13 @@ public class ReportScheduledGeneratorService {
     private final EventPublisher eventPublisher;
 
     @Transactional
-    public void schedule(String reportName, String subsystem,
-                         Map<String, Object> reportParams, ReportFormat format) {
+    public void schedule(String reportName, String subsystem, Map<String, Object> reportParams,
+                         ReportFormat format, LocalDateTime at) {
 
         ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
 
         Report report = reportRepository.save(Report.instance(pattern.getName(), pattern.getSubsystem()));
 
-        eventPublisher.emit(new ScheduleReportGenerationEvent(report.getId(), reportName, subsystem, reportParams, format));
+        eventPublisher.emit(new ScheduleReportGenerationEvent(report.getId(), reportName, subsystem, reportParams, format, at));
     }
 }
