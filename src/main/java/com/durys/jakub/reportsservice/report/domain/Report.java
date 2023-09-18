@@ -1,17 +1,14 @@
 package com.durys.jakub.reportsservice.report.domain;
 
-import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Entity
@@ -32,6 +29,9 @@ public class Report {
 
     @Embedded
     private ReportCreationStatus status;
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ReportParameter> parameters;
 
 
     public static Report instanceOf(ReportPatternInfo patternInformations, String format) {
