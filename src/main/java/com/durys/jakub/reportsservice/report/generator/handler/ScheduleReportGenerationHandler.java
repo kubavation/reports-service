@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.report.generator.handler;
 
+import com.durys.jakub.reportsservice.notification.Notifications;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
@@ -19,6 +20,7 @@ public class ScheduleReportGenerationHandler {
 
     private final ReportGenerator reportGenerator;
     private final ReportRepository reportRepository;
+    private final Notifications notifications;
 
     @EventListener
     @Async
@@ -28,8 +30,8 @@ public class ScheduleReportGenerationHandler {
                 .orElseThrow(RuntimeException::new);
 
         generate(report)
-                .peek(rep -> System.out.println("todo"))
-                .orElseRun(rep -> System.out.println("todo")); //todo notifications
+                .peek(rep -> notifications.send(rep.getTenantId(), "TODO"))
+                .orElseRun(rep -> notifications.send(rep.getTenantId(), "TODO"));
 
     }
 
