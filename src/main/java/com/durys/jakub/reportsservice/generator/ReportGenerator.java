@@ -21,13 +21,23 @@ public class ReportGenerator {
 
         InputStream patternIS = reportPatternService.filePattern(reportName, subsystem);
 
-        JasperReport report = JasperCompileManager.compileReport(patternIS);
+        JasperReport report = ReportCache.compiledReport(patternIS)
+                .getOrElseGet(r -> compile(patternIS));
 
         JasperPrint generated = ReportParametersService.fill(report, reportParams);
 
         byte[] result = ReportPrintService.print(generated, format);
 
         return new GeneratedReport(result, reportName, format.format());
+    }
+
+
+    private JasperReport compile(InputStream patternIS) {
+        try {
+            return JasperCompileManager.compileReport(patternIS);
+        } catch (JRException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
