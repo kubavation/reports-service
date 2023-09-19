@@ -4,11 +4,14 @@ import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
 @Entity
+@NoArgsConstructor
+@Table(name = "REP_REPORT_PATTERN")
 public class ReportPattern {
 
     @Id

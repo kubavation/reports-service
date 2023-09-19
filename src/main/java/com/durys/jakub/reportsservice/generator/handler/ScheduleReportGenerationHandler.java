@@ -1,15 +1,15 @@
-package com.durys.jakub.reportsservice.report.generator.handler;
+package com.durys.jakub.reportsservice.generator.handler;
 
 import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
-import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
+import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
-import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
-import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
-import com.durys.jakub.reportsservice.report.scheduling.event.GenerateScheduledReportEvent;
+import com.durys.jakub.reportsservice.generator.ReportGenerator;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import com.durys.jakub.reportsservice.scheduling.event.GenerateScheduledReportEvent;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
-package com.durys.jakub.reportsservice.report.scheduling;
+package com.durys.jakub.reportsservice.scheduling;
 
 import com.durys.jakub.reportsservice.event.EventPublisher;
-import com.durys.jakub.reportsservice.report.scheduling.domain.ScheduledReport;
-import com.durys.jakub.reportsservice.report.scheduling.event.GenerateScheduledReportEvent;
-import com.durys.jakub.reportsservice.report.scheduling.infrastructure.ScheduledReportsRepository;
+import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReport;
+import com.durys.jakub.reportsservice.scheduling.event.GenerateScheduledReportEvent;
+import com.durys.jakub.reportsservice.scheduling.infrastructure.ScheduledReportsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

@@ -1,6 +1,6 @@
-package com.durys.jakub.reportsservice.report.generator;
+package com.durys.jakub.reportsservice.generator;
 
-import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
+import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;

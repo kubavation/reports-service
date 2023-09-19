@@ -1,12 +1,12 @@
-package com.durys.jakub.reportsservice.report.scheduling;
+package com.durys.jakub.reportsservice.scheduling;
 
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
+import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReport;
+import com.durys.jakub.reportsservice.scheduling.infrastructure.ScheduledReportsRepository;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
-import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
+import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
-import com.durys.jakub.reportsservice.report.scheduling.domain.ScheduledReport;
-import com.durys.jakub.reportsservice.report.scheduling.infrastructure.ScheduledReportsRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

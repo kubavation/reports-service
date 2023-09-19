@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
+@Table(name = "REP_REPORT_PARAM")
 public class ReportParameter {
 
     @Id
@@ -14,7 +15,7 @@ public class ReportParameter {
     private Long id;
 
     private String name;
-    private Object value;
+    private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pattern_id")
@@ -22,6 +23,6 @@ public class ReportParameter {
 
     public ReportParameter(String name, Object value) {
         this.name = name;
-        this.value = value;
+        this.value = value.toString();
     }
 }
