@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "REP_REPORT")
 public class Report {
 
     @Id
