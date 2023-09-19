@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ReportsController {
+public class ReportsGenerationController {
 
     private final ReportGenerator reportGenerator;
     private final ReportScheduledGeneratorService reportScheduledGeneratorService;

@@ -22,4 +22,11 @@ public interface ReportPatternRepository extends CrudRepository<ReportPattern, L
 
     @Query("from ReportPatternParameter param where param.pattern.id = :patternId")
     Set<ReportPatternParameter> patternParameters(Long patternId);
+
+    @Query(""" 
+           select new com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo(p.informations.name, p.informations.description, p.informations.subsystem)
+           from ReportPattern p where p.informations.subsystem = :subsystem
+           """)
+    Set<ReportPatternInfo> subsystemPatterns(String subsystem);
+
 }

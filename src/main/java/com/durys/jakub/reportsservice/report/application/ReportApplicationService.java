@@ -1,6 +1,7 @@
 package com.durys.jakub.reportsservice.report.application;
 
 import com.durys.jakub.reportsservice.report.domain.Report;
+import com.durys.jakub.reportsservice.report.domain.ReportParameter;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import lombok.RequiredArgsConstructor;
