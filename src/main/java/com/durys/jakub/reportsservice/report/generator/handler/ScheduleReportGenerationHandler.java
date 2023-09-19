@@ -1,5 +1,9 @@
 package com.durys.jakub.reportsservice.report.generator.handler;
 
+import com.durys.jakub.notificationclient.api.client.NotificationClient;
+import com.durys.jakub.notificationclient.api.model.Notification;
+import com.durys.jakub.notificationclient.api.model.NotificationType;
+import com.durys.jakub.notificationclient.api.model.TenantId;
 import com.durys.jakub.reportsservice.notification.Notifications;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
@@ -14,13 +18,15 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ScheduleReportGenerationHandler {
 
     private final ReportGenerator reportGenerator;
     private final ReportRepository reportRepository;
-    private final Notifications notifications;
+    private final NotificationClient notificationClient;
 
     @EventListener
     @Async
@@ -30,8 +36,12 @@ public class ScheduleReportGenerationHandler {
                 .orElseThrow(RuntimeException::new);
 
         generate(report)
-                .peek(rep -> notifications.send(rep.getTenantId(), "TODO"))
-                .orElseRun(rep -> notifications.send(rep.getTenantId(), "TODO"));
+                .peek(rep -> notificationClient.send(
+                        new Notification(new TenantId(rep.getTenantId().toString()),
+                        "Report successfully created", "Report successfully created", List.of(NotificationType.APP))))
+                .orElseRun(rep ->  notificationClient.send(
+                        new Notification(new TenantId(rep.getTenantId().toString()),
+                                "Report failed to create", "Report failed to create", List.of(NotificationType.APP))));
 
     }
 
