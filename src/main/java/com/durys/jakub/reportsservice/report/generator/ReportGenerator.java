@@ -2,7 +2,7 @@ package com.durys.jakub.reportsservice.report.generator;
 
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
-import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import org.springframework.stereotype.Component;

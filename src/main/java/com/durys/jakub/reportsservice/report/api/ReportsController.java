@@ -2,8 +2,9 @@ package com.durys.jakub.reportsservice.report.api;
 
 import com.durys.jakub.reportsservice.report.api.model.ReportCreation;
 import com.durys.jakub.reportsservice.report.api.model.ScheduleReportCreation;
+import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
 import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
-import com.durys.jakub.reportsservice.report.generator.model.GeneratedReport;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import com.durys.jakub.reportsservice.report.scheduling.ReportScheduledGeneratorService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class ReportsController {
 
     private final ReportGenerator reportGenerator;
     private final ReportScheduledGeneratorService reportScheduledGeneratorService;
+    private final ReportApplicationService reportApplicationService;
 
     @PostMapping("/generation")
     public ResponseEntity<Resource> generate(@RequestBody ReportCreation report) throws JRException {
@@ -47,6 +49,18 @@ public class ReportsController {
                 scheduledReport.getParameters(),
                 scheduledReport.getFormat(),
                 scheduledReport.getAt());
+    }
+
+    @GetMapping("/{reportId}")
+    public ResponseEntity<Resource> download(@PathVariable Long reportId) {
+
+        GeneratedReport generated = reportApplicationService.download(reportId);
+
+        return ResponseEntity.ok()
+                .headers(ReportHeadersFactory.generate(generated))
+                .contentLength(generated.file().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(generated.file()));
     }
 
 
