@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
+@Table(name = "REP_REPORT_PARAM")
 public class ReportParameter {
 
     @Id
