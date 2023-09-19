@@ -2,6 +2,7 @@ package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameter;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +26,8 @@ public class ReportPatternController {
         return reportPatternRepository.subsystemPatterns(subsystem);
     }
 
+    @GetMapping("/{patternId}/parameters")
+    public Set<PatternParameter> patternParameters(@PathVariable Long patternId) {
+        return reportPatternRepository.patternParams(patternId);
+    }
 }

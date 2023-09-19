@@ -1,6 +1,7 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameter;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,9 @@ public interface ReportPatternRepository extends CrudRepository<ReportPattern, L
            """)
     Set<ReportPatternInfo> subsystemPatterns(String subsystem);
 
+    @Query(""" 
+           select new com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameter(p.name, p.type)
+           from ReportPatternParameter p where p.pattern.id = :patternId
+           """)
+    Set<PatternParameter> patternParams(Long patternId);
 }
