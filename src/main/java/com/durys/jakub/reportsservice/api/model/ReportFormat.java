@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.report.api.model;
+package com.durys.jakub.reportsservice.api.model;
 
 public enum ReportFormat {
     PDF("pdf");

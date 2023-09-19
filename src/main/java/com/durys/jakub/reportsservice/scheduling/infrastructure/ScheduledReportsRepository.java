@@ -1,6 +1,6 @@
-package com.durys.jakub.reportsservice.report.scheduling.infrastructure;
+package com.durys.jakub.reportsservice.scheduling.infrastructure;
 
-import com.durys.jakub.reportsservice.report.scheduling.domain.ScheduledReport;
+import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

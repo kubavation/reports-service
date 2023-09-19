@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.report.scheduling.domain;
+package com.durys.jakub.reportsservice.scheduling.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

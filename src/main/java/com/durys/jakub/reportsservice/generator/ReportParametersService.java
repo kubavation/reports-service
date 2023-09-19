@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.report.generator;
+package com.durys.jakub.reportsservice.generator;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;

@@ -1,11 +1,11 @@
-package com.durys.jakub.reportsservice.report.api;
+package com.durys.jakub.reportsservice.api;
 
-import com.durys.jakub.reportsservice.report.api.model.ReportCreation;
-import com.durys.jakub.reportsservice.report.api.model.ScheduleReportCreation;
+import com.durys.jakub.reportsservice.api.model.ReportCreation;
+import com.durys.jakub.reportsservice.api.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
-import com.durys.jakub.reportsservice.report.generator.ReportGenerator;
+import com.durys.jakub.reportsservice.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
-import com.durys.jakub.reportsservice.report.scheduling.ReportScheduledGeneratorService;
+import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
