@@ -6,6 +6,9 @@ import com.durys.jakub.reportsservice.report.application.ReportApplicationServic
 import com.durys.jakub.reportsservice.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +31,11 @@ public class ReportsGenerationController {
     private final ReportScheduledGeneratorService reportScheduledGeneratorService;
     private final ReportApplicationService reportApplicationService;
 
+    @Operation(summary = "Generation of report")
+    @ApiResponse(responseCode = "200", description = "Report generated")
     @PostMapping("/generation")
-    public ResponseEntity<Resource> generate(@RequestBody ReportCreation report) throws JRException {
+    public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
+                                             @RequestBody ReportCreation report) throws JRException {
 
         GeneratedReport generated = reportGenerator.generate(report.getReportName(), report.getSubsystem(),
                 report.getParameters(), report.getFormat());
@@ -41,8 +47,10 @@ public class ReportsGenerationController {
                 .body(new ByteArrayResource(generated.file()));
     }
 
+    @Operation(summary = "Scheduling generation of report")
+    @ApiResponse(responseCode = "200", description = "Report scheduled for generation")
     @PostMapping("/scheduling")
-    public void schedule(@RequestBody ScheduleReportCreation scheduledReport) {
+    public void schedule(@Parameter(description = "Scheduled report with params") @RequestBody ScheduleReportCreation scheduledReport) {
         reportScheduledGeneratorService.schedule(
                 scheduledReport.getReportName(),
                 scheduledReport.getSubsystem(),
@@ -51,8 +59,10 @@ public class ReportsGenerationController {
                 scheduledReport.getAt());
     }
 
+    @Operation(summary = "Downloading generated report")
+    @ApiResponse(responseCode = "200", description = "Report downloaded")
     @GetMapping("/{reportId}")
-    public ResponseEntity<Resource> download(@PathVariable Long reportId) {
+    public ResponseEntity<Resource> download(@Parameter(description = "Identity of report") @PathVariable Long reportId) {
 
         GeneratedReport generated = reportApplicationService.download(reportId);
 
