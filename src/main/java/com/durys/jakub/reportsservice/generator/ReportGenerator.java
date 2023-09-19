@@ -34,7 +34,9 @@ public class ReportGenerator {
 
     private JasperReport compile(InputStream patternIS) {
         try {
-            return JasperCompileManager.compileReport(patternIS);
+            JasperReport report = JasperCompileManager.compileReport(patternIS);
+            ReportCache.cache(report);
+            return report;
         } catch (JRException e) {
             throw new RuntimeException(e);
         }
