@@ -26,9 +26,10 @@ public class ReportGenerator {
 
         JasperPrint generated = ReportParametersService.fill(report, reportParams);
 
-        byte[] result = ReportPrintService.print(generated, format);
-
-        return new GeneratedReport(result, reportName, format.format());
+        return new GeneratedReport(
+                ReportPrintService.print(generated, format),
+                reportName,
+                format.format());
     }
 
 
