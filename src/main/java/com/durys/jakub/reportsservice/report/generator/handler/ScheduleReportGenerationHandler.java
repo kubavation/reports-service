@@ -4,7 +4,6 @@ import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
-import com.durys.jakub.reportsservice.notification.Notifications;
 import com.durys.jakub.reportsservice.report.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
