@@ -43,4 +43,10 @@ public class ReportPatternController {
     public void createPattern(@RequestPart ReportPatternDTO pattern, @RequestPart MultipartFile file) throws Exception {
         reportPatternApplicationService.create(pattern, file);
     }
+
+    @PutMapping(path = "/{patternId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void editPattern(@PathVariable Long patternId,
+            @RequestPart ReportPatternDTO pattern, @RequestPart MultipartFile file) throws Exception {
+        reportPatternApplicationService.edit(patternId, pattern, file);
+    }
 }

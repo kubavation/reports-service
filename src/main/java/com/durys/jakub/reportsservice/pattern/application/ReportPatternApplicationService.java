@@ -49,4 +49,18 @@ public class ReportPatternApplicationService {
 
         patternRepository.save(reportPattern);
     }
+
+    @Transactional
+    public void edit(Long patternId, ReportPatternDTO pattern, MultipartFile file) throws IOException {
+
+        log.info("edit pattern (ID: {})", patternId);
+
+        ReportPattern entity = patternRepository.findById(patternId)
+                .orElseThrow(RuntimeException::new);
+
+        ReportPattern reportPattern = PatternConverter.convert(pattern, file);
+        reportPattern.setId(entity.getId());
+
+        patternRepository.save(reportPattern);
+    }
 }
