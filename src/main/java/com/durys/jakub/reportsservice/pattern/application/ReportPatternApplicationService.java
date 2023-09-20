@@ -4,6 +4,7 @@ import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,7 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
     }
 
+    @Transactional
     public void create(ReportPatternDTO pattern, MultipartFile file) throws IOException {
 
         log.info("creating pattern");
