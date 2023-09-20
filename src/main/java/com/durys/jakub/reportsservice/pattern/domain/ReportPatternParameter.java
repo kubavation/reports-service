@@ -24,4 +24,10 @@ public class ReportPatternParameter {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public ReportPatternParameter(String name, String type) {
+        this.name = name;
+        this.type = type;
+        this.status = Status.ACTIVE;
+    }
 }

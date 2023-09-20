@@ -40,7 +40,7 @@ public class ReportPatternController {
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void createPattern(@RequestPart ReportPatternDTO pattern, @RequestPart MultipartFile file) {
+    public void createPattern(@RequestPart ReportPatternDTO pattern, @RequestPart MultipartFile file) throws Exception {
         reportPatternApplicationService.create(pattern, file);
     }
 }
