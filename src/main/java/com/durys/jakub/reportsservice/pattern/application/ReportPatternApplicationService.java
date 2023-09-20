@@ -1,12 +1,17 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 @Component
@@ -31,4 +36,31 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
     }
 
+    @Transactional
+    public void create(ReportPatternDTO pattern, MultipartFile file) throws IOException {
+
+        log.info("creating pattern");
+
+        if (log.isDebugEnabled()) {
+            log.debug("pattern {}", pattern);
+        }
+
+        ReportPattern reportPattern = PatternConverter.convert(pattern, file);
+
+        patternRepository.save(reportPattern);
+    }
+
+    @Transactional
+    public void edit(Long patternId, ReportPatternDTO pattern, MultipartFile file) throws IOException {
+
+        log.info("edit pattern (ID: {})", patternId);
+
+        ReportPattern entity = patternRepository.findById(patternId)
+                .orElseThrow(RuntimeException::new);
+
+        ReportPattern reportPattern = PatternConverter.convert(pattern, file);
+        reportPattern.setId(entity.getId());
+
+        patternRepository.save(reportPattern);
+    }
 }

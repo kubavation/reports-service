@@ -19,6 +19,9 @@ class ReportCache {
     }
 
     static void cache(JasperReport report) {
+
+        log.info("caching report {}", report.getName());
+
         try {
             JRSaver.saveObject(report, report.getName());
         } catch (Exception e) {
