@@ -70,7 +70,7 @@ public class ReportPatternApplicationService {
 
         ReportPattern entity = patternRepository.findById(patternId)
                 .orElseThrow(RuntimeException::new);
-        
+
         entity.markAsDeleted();
         patternRepository.save(entity);
     }
