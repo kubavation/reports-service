@@ -63,4 +63,15 @@ public class ReportPatternApplicationService {
 
         patternRepository.save(reportPattern);
     }
+
+    public void delete(Long patternId) {
+
+        log.info("delete pattern (ID: {})", patternId);
+
+        ReportPattern entity = patternRepository.findById(patternId)
+                .orElseThrow(RuntimeException::new);
+
+        entity.markAsDeleted();
+        patternRepository.save(entity);
+    }
 }
