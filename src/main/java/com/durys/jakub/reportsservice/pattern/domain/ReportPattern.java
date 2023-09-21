@@ -35,4 +35,8 @@ public class ReportPattern {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public void markAsDeleted() {
+        this.status = Status.DELETED;
+    }
+
 }

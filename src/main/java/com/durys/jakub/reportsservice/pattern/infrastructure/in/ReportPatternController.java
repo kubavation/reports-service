@@ -54,4 +54,9 @@ public class ReportPatternController {
                             @Parameter(description = "Pattern file") @RequestPart MultipartFile file) throws Exception {
         reportPatternApplicationService.edit(patternId, pattern, file);
     }
+
+    @DeleteMapping("/{patternId}")
+    public void deletePattern(@Parameter(description = "Pattern ID")  @PathVariable Long patternId) {
+        reportPatternApplicationService.delete(patternId);
+    }
 }
