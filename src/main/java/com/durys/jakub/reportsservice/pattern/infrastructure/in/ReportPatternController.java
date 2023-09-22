@@ -41,6 +41,14 @@ public class ReportPatternController {
         return reportPatternRepository.patternParams(patternId);
     }
 
+    @Operation(description = "Upload pattern file")
+    @ApiResponse(responseCode = "200", description = "File uploaded")
+    @PatchMapping("/{patternId}/files")
+    public void uploadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId,
+                                  @RequestParam MultipartFile file) throws Exception {
+        reportPatternApplicationService.upload(patternId, file);
+    }
+
     @Operation(description = "Create report pattern")
     @ApiResponse(responseCode = "200", description = "Report pattern successfully created")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
