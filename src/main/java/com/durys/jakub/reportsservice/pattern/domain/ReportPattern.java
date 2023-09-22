@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -24,13 +25,15 @@ public class ReportPattern {
 
     @Embedded
     private ReportPatternInfo informations;
-    private byte[] file;
+
+    @Embedded
+    private PatternFile patternFile;
 
     @OneToMany(
             mappedBy = "pattern",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<ReportPatternParameter> parameters;
+    private Set<ReportPatternParameter> parameters = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private Status status;

@@ -1,9 +1,10 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
-import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
+import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 
 public interface ReportPatternRepository extends CrudRepository<ReportPattern, Long> {
 
-    @Query("select p.file from ReportPattern p where p.informations.name = :reportName and p.informations.subsystem = :subsystem")
+    @Query("select p.patternFile.file from ReportPattern p where p.informations.name = :reportName and p.informations.subsystem = :subsystem")
     Optional<byte[]> filePatternOf(String reportName, String subsystem);
 
     @Query(""" 
@@ -25,14 +26,16 @@ public interface ReportPatternRepository extends CrudRepository<ReportPattern, L
     Set<ReportPatternParameter> patternParameters(Long patternId);
 
     @Query(""" 
-           select new com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO(p.id, p.informations.name, p.informations.description, p.informations.subsystem)
+           select new com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO(
+           p.id, p.informations.name, p.informations.description, p.informations.subsystem, p.patternFile.fileName)
            from ReportPattern p where p.informations.subsystem = :subsystem
            """)
-    Set<ReportPatternInfo> subsystemPatterns(String subsystem);
+    Set<ReportPatternInfoDTO> subsystemPatterns(String subsystem);
 
     @Query(""" 
            select new com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO(p.name, p.type)
            from ReportPatternParameter p where p.pattern.id = :patternId
            """)
     Set<PatternParameterDTO> patternParams(Long patternId);
+
 }

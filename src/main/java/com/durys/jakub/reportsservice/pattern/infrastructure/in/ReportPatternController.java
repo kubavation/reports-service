@@ -4,6 +4,7 @@ import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicati
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +29,7 @@ public class ReportPatternController {
     @Operation(description = "List of patterns based on subsystem")
     @ApiResponse(responseCode = "200", description = "List of patterns")
     @GetMapping("/subsystem/{subsystem}")
-    public Set<ReportPatternInfo> patterns(@Parameter(description ="Subsystem") @PathVariable String subsystem) {
+    public Set<ReportPatternInfoDTO> patterns(@Parameter(description ="Subsystem") @PathVariable String subsystem) {
         log.info("Finding patterns for subsystem {}", subsystem);
         return reportPatternRepository.subsystemPatterns(subsystem);
     }
@@ -38,6 +39,14 @@ public class ReportPatternController {
     @GetMapping("/{patternId}/parameters")
     public Set<PatternParameterDTO> patternParameters(@Parameter(description ="Pattern ID") @PathVariable Long patternId) {
         return reportPatternRepository.patternParams(patternId);
+    }
+
+    @Operation(description = "Upload pattern file")
+    @ApiResponse(responseCode = "200", description = "File uploaded")
+    @PatchMapping("/{patternId}/files")
+    public void uploadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId,
+                                  @RequestParam MultipartFile file) throws Exception {
+        reportPatternApplicationService.upload(patternId, file);
     }
 
     @Operation(description = "Create report pattern")

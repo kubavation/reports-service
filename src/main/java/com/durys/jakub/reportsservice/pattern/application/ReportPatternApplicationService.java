@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
+import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
@@ -72,6 +73,18 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
 
         entity.markAsDeleted();
+        patternRepository.save(entity);
+    }
+
+    public void upload(Long patternId, MultipartFile file) throws IOException {
+
+        log.info("uploading file pattern (ID: {})", patternId);
+
+        ReportPattern entity = patternRepository.findById(patternId)
+                .orElseThrow(RuntimeException::new);
+
+        entity.setPatternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()));
+
         patternRepository.save(entity);
     }
 }

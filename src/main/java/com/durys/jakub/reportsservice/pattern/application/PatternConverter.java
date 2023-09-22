@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
+import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
@@ -20,7 +21,7 @@ class PatternConverter {
     static ReportPattern convert(ReportPatternDTO dto, MultipartFile file) throws IOException {
         return ReportPattern.builder()
                 .informations(new ReportPatternInfo(dto.getName(), dto.getDescription(), dto.getSubsystem()))
-                .file(file.getBytes())
+                .patternFile(new PatternFile(file.getBytes(), file.getName()))
                 .parameters(convert(dto.getParameters()))
                 .status(Status.ACTIVE)
                 .build();
