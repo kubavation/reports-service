@@ -4,6 +4,7 @@ import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicati
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
+import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +29,7 @@ public class ReportPatternController {
     @Operation(description = "List of patterns based on subsystem")
     @ApiResponse(responseCode = "200", description = "List of patterns")
     @GetMapping("/subsystem/{subsystem}")
-    public Set<ReportPatternInfo> patterns(@Parameter(description ="Subsystem") @PathVariable String subsystem) {
+    public Set<ReportPatternInfoDTO> patterns(@Parameter(description ="Subsystem") @PathVariable String subsystem) {
         log.info("Finding patterns for subsystem {}", subsystem);
         return reportPatternRepository.subsystemPatterns(subsystem);
     }
