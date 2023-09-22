@@ -29,6 +29,7 @@ public class ReportPatternController {
     @ApiResponse(responseCode = "200", description = "List of patterns")
     @GetMapping("/subsystem/{subsystem}")
     public Set<ReportPatternInfo> patterns(@Parameter(description ="Subsystem") @PathVariable String subsystem) {
+        log.info("Finding patterns for subsystem {}", subsystem);
         return reportPatternRepository.subsystemPatterns(subsystem);
     }
 
