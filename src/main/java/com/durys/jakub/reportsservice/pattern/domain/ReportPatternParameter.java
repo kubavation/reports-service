@@ -3,9 +3,12 @@ package com.durys.jakub.reportsservice.pattern.domain;
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "REP_REPORT_PATTERN_PARAM")
@@ -29,5 +32,10 @@ public class ReportPatternParameter {
         this.name = name;
         this.type = type;
         this.status = Status.ACTIVE;
+    }
+
+    public ReportPatternParameter(ReportPattern pattern, String name, String type) {
+        this(name, type);
+        this.pattern = pattern;
     }
 }

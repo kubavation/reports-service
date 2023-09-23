@@ -22,18 +22,17 @@ class PatternConverter {
         return ReportPattern.builder()
                 .informations(new ReportPatternInfo(dto.getName(), dto.getDescription(), dto.getSubsystem()))
                 .patternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()))
-                .parameters(convert(dto.getParameters()))
                 .status(Status.ACTIVE)
                 .build();
     }
 
-    private static ReportPatternParameter convert(PatternParameterDTO dto) {
-        return new ReportPatternParameter(dto.getName(), dto.getType());
+    private static ReportPatternParameter convert(ReportPattern reportPattern, PatternParameterDTO dto) {
+        return new ReportPatternParameter(reportPattern, dto.getName(), dto.getType());
     }
 
-    private static Set<ReportPatternParameter> convert(Set<PatternParameterDTO> dtos) {
+    public static Set<ReportPatternParameter> convert(ReportPattern reportPattern, Set<PatternParameterDTO> dtos) {
         return dtos.stream()
-                .map(PatternConverter::convert)
+                .map(parameter -> convert(reportPattern, parameter))
                 .collect(Collectors.toSet());
     }
 

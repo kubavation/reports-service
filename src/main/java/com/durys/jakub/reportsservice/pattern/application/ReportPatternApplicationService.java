@@ -2,6 +2,7 @@ package com.durys.jakub.reportsservice.pattern.application;
 
 import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 @Component
 @Slf4j
@@ -46,7 +48,11 @@ public class ReportPatternApplicationService {
             log.debug("pattern {}", pattern);
         }
 
-        ReportPattern reportPattern = PatternConverter.convert(pattern, file);
+        ReportPattern reportPattern = patternRepository.save(PatternConverter.convert(pattern, file));
+
+        Set<ReportPatternParameter> parameters = PatternConverter.convert(reportPattern, pattern.getParameters());
+
+        reportPattern.setParameters(parameters);
 
         patternRepository.save(reportPattern);
     }
