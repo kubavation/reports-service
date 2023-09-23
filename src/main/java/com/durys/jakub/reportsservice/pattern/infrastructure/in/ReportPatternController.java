@@ -1,6 +1,8 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
+import com.durys.jakub.reportsservice.api.ReportsGenerationController;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
+import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
@@ -11,7 +13,11 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +53,24 @@ public class ReportPatternController {
     public void uploadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId,
                                   @RequestParam MultipartFile file) throws Exception {
         reportPatternApplicationService.upload(patternId, file);
+    }
+
+    @Operation(description = "Upload pattern file")
+    @ApiResponse(responseCode = "200", description = "File uploaded")
+    @GetMapping("/{patternId}/files")
+    public ResponseEntity<Resource> downloadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId) throws Exception {
+
+        PatternFile patternFile = reportPatternApplicationService.download(patternId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, patternFile.getFileName());
+        headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(patternFile.getFile().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(patternFile.getFile()));
     }
 
     @Operation(description = "Create report pattern")

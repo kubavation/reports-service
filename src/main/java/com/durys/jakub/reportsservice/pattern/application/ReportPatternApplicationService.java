@@ -87,4 +87,14 @@ public class ReportPatternApplicationService {
 
         patternRepository.save(entity);
     }
+
+    public PatternFile download(Long patternId) {
+
+        log.info("downloading file pattern (ID: {})", patternId);
+
+        ReportPattern entity = patternRepository.findById(patternId)
+                .orElseThrow(RuntimeException::new);
+
+        return entity.getPatternFile();
+    }
 }
