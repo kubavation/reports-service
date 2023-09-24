@@ -54,7 +54,7 @@ public class ScheduleReportGenerationHandler {
                     .stream()
                     .map(param -> new ReportCreationParam(param.getName(), param.getValue()))
                     .collect(Collectors.toSet());
-            
+
             GeneratedReport generated = reportGenerator.generate(info.getName(), info.getSubsystem(), parameters, ReportFormat.valueOf(report.getFormat()));
             return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
         } catch (Exception e) {

@@ -79,7 +79,8 @@ public class ReportsGenerationController {
 
         static HttpHeaders generate(GeneratedReport report) {
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".formatted(report.fileName()));
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "%s.%s".formatted(report.fileName(),report.format()));
+            headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
             headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
             headers.add("Pragma", "no-cache");
             headers.add("Expires", "0");
