@@ -4,6 +4,7 @@ import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
+import com.durys.jakub.reportsservice.api.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
@@ -18,6 +19,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -47,7 +49,13 @@ public class ScheduleReportGenerationHandler {
     private Either<Report, Report> generate(Report report) {
         try {
             final ReportPatternInfo info = report.getPatternInformations();
-            GeneratedReport generated = reportGenerator.generate(info.getName(), info.getSubsystem(), report.params(), ReportFormat.valueOf(report.getFormat()));
+
+            var parameters = report.getParameters()
+                    .stream()
+                    .map(param -> new ReportCreationParam(param.getName(), param.getValue()))
+                    .collect(Collectors.toSet());
+
+            GeneratedReport generated = reportGenerator.generate(info.getName(), info.getSubsystem(), parameters, ReportFormat.valueOf(report.getFormat()));
             return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
         } catch (Exception e) {
             return Either.left(reportRepository.save(report.markAsFailed()));

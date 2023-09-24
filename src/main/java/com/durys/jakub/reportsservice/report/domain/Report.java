@@ -50,11 +50,8 @@ public class Report {
                 .build();
     }
 
-    public Report withParameters(Map<String, Object> parameters) {
-        this.parameters = parameters.entrySet()
-                .stream()
-                .map(entry -> new ReportParameter(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toSet());
+    public Report withParameters(Set<ReportParameter> parameters) {
+        this.parameters = parameters;
         return this;
     }
 
@@ -73,11 +70,6 @@ public class Report {
         this.file = file;
         this.fileName = fileName;
         return this;
-    }
-
-    public Map<String, Object> params() {
-        return parameters.stream()
-                .collect(Collectors.toMap(ReportParameter::getName, ReportParameter::getValue));
     }
 
 }
