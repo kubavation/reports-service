@@ -2,12 +2,12 @@ package com.durys.jakub.reportsservice.api.model;
 
 import lombok.Data;
 
-import java.util.Map;
+import java.util.Set;
 
 @Data
 public class ReportCreation {
     private String reportName;
     private String subsystem;
     private ReportFormat format;
-    private Map<String, Object> parameters;
+    private Set<ReportCreationParam> parameters;
 }
