@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
-class ReportCreationStatus {
+public class ReportCreationStatus {
 
     public enum Status {
         IN_PROGRESS,
