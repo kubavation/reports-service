@@ -17,7 +17,7 @@ public interface ScheduledReportsRepository extends JpaRepository<ScheduledRepor
     @Query("""
             select new com.durys.jakub.reportsservice.scheduling.infrastructure.ScheduledReportDTO(
             r.id, r.patternInformations.name, r.patternInformations.description, r.patternInformations.subsystem,
-            r.fileName, r.status.status, sr.at)
+            r.fileName, r.status, sr.at)
            from Report r
            join ScheduledReport sr on sr.reportId = r.id
            """)
