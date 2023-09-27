@@ -16,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Set;
 
 @Component
@@ -32,8 +30,10 @@ public class ReportPatternApplicationService {
 
         log.info("loading report pattern of name: {} and subsystem: {}", name, subsystem);
 
-        byte[] bytes = patternRepository.filePatternOf(name, subsystem)
+        ReportPattern pattern = patternRepository.findBy(subsystem, name)
                 .orElseThrow(RuntimeException::new);
+
+        byte[] bytes = filePatternRepository.load(pattern);
 
         return new ByteArrayInputStream(bytes);
     }

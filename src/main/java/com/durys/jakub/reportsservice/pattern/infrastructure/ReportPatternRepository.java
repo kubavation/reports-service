@@ -38,4 +38,7 @@ public interface ReportPatternRepository extends CrudRepository<ReportPattern, L
            """)
     Set<PatternParameterDTO> patternParams(Long patternId);
 
+    @Query("SELECT rp from ReportPattern rp where rp.informations.subsystem = :subsystem and rp.informations.name = :reportName")
+    Optional<ReportPattern> findBy(String subsystem, String reportName);
+
 }
