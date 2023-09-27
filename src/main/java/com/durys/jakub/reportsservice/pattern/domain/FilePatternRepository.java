@@ -1,5 +1,7 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface FilePatternRepository {
-    void store(String subsystem, String fileName, byte[] content);
+    void store(ReportPattern pattern, MultipartFile file);
 }
