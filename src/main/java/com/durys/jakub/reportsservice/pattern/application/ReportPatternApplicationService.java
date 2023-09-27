@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
+import com.durys.jakub.reportsservice.pattern.domain.FilePatternRepository;
 import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
@@ -25,8 +26,7 @@ import java.util.Set;
 public class ReportPatternApplicationService {
 
     private final ReportPatternRepository patternRepository;
-
-    private static final String REPORTS_SPACE = "C:\\Users\\48533\\projects\\reports";
+    private final FilePatternRepository filePatternRepository;
 
     public InputStream filePattern(String name, String subsystem) {
 
@@ -86,6 +86,7 @@ public class ReportPatternApplicationService {
         patternRepository.save(entity);
     }
 
+    @Transactional
     public void upload(Long patternId, MultipartFile file) throws IOException {
 
         log.info("uploading file pattern (ID: {})", patternId);
@@ -95,9 +96,9 @@ public class ReportPatternApplicationService {
 
         entity.setPatternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()));
 
-        Files.write(Path.of(REPORTS_SPACE, entity.getInformations().getSubsystem(), file.getOriginalFilename()), file.getBytes());
-
         patternRepository.save(entity);
+
+        filePatternRepository.store(entity.getInformations().getSubsystem(), file.getOriginalFilename(), file.getBytes());
     }
 
     public PatternFile download(Long patternId) {
