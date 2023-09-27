@@ -96,9 +96,9 @@ public class ReportPatternApplicationService {
 
         entity.setPatternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()));
 
-        patternRepository.save(entity);
+        ReportPattern reportPattern = patternRepository.save(entity);
 
-        filePatternRepository.store(entity, file);
+        filePatternRepository.store(reportPattern, file);
     }
 
     public PatternFile download(Long patternId) {

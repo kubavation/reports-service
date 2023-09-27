@@ -17,7 +17,17 @@ public class LocalFilePatternRepository implements FilePatternRepository {
     public void store(ReportPattern pattern, MultipartFile file) {
 
         try {
-            Files.write(Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem(), file.getOriginalFilename()), file.getBytes());
+
+            Path subsystemPath = Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem());
+
+            if (!Files.exists(subsystemPath)) {
+                Files.createDirectories(subsystemPath);
+            }
+
+            Files.write(Path.of(REPORTS_SPACE,
+                    pattern.getInformations().getSubsystem(),
+                    pattern.getInformations().getName()), file.getBytes());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
