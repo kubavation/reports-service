@@ -108,6 +108,8 @@ public class ReportPatternApplicationService {
         ReportPattern entity = patternRepository.findById(patternId)
                 .orElseThrow(RuntimeException::new);
 
-        return entity.getPatternFile();
+        return entity
+                .withFile(filePatternRepository.load(entity))
+                .getPatternFile();
     }
 }

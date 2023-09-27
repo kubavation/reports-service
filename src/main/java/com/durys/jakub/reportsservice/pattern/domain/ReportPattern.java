@@ -42,4 +42,9 @@ public class ReportPattern {
         this.status = Status.DELETED;
     }
 
+    public ReportPattern withFile(byte[] content) {
+        patternFile.setFile(content);
+        return this;
+    }
+
 }

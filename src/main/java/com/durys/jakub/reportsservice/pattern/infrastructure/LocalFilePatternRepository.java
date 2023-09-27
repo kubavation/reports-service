@@ -32,4 +32,14 @@ public class LocalFilePatternRepository implements FilePatternRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public byte[] load(ReportPattern pattern) {
+        var path = Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem(), pattern.getInformations().getName());
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
