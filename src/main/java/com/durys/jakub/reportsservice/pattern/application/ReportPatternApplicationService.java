@@ -3,9 +3,9 @@ package com.durys.jakub.reportsservice.pattern.application;
 import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
+import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
-import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Set;
 
 @Component
@@ -23,6 +25,8 @@ import java.util.Set;
 public class ReportPatternApplicationService {
 
     private final ReportPatternRepository patternRepository;
+
+    private static final String REPORTS_SPACE = "C:\\Users\\48533\\projects\\reports";
 
     public InputStream filePattern(String name, String subsystem) {
 
@@ -90,6 +94,8 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
 
         entity.setPatternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()));
+
+        Files.write(Path.of(REPORTS_SPACE, entity.getInformations().getSubsystem(), file.getOriginalFilename()), file.getBytes());
 
         patternRepository.save(entity);
     }
