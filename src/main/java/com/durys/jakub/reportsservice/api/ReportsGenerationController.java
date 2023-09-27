@@ -35,7 +35,7 @@ public class ReportsGenerationController {
     @ApiResponse(responseCode = "200", description = "Report generated")
     @PostMapping("/generation")
     public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
-                                             @RequestBody ReportCreation report) throws JRException {
+                                             @RequestBody ReportCreation report) throws Exception {
 
         GeneratedReport generated = reportGenerator.generate(report.getReportName(), report.getSubsystem(),
                 report.getParameters(), report.getFormat());

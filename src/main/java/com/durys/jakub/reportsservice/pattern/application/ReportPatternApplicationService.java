@@ -1,11 +1,12 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
+import com.durys.jakub.reportsservice.pattern.domain.FilePatternRepository;
 import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
+import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
-import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +24,16 @@ import java.util.Set;
 public class ReportPatternApplicationService {
 
     private final ReportPatternRepository patternRepository;
+    private final FilePatternRepository filePatternRepository;
 
     public InputStream filePattern(String name, String subsystem) {
 
         log.info("loading report pattern of name: {} and subsystem: {}", name, subsystem);
 
-        byte[] bytes = patternRepository.filePatternOf(name, subsystem)
+        ReportPattern pattern = patternRepository.findBy(subsystem, name)
                 .orElseThrow(RuntimeException::new);
+
+        byte[] bytes = filePatternRepository.load(pattern);
 
         return new ByteArrayInputStream(bytes);
     }
@@ -82,6 +86,7 @@ public class ReportPatternApplicationService {
         patternRepository.save(entity);
     }
 
+    @Transactional
     public void upload(Long patternId, MultipartFile file) throws IOException {
 
         log.info("uploading file pattern (ID: {})", patternId);
@@ -91,7 +96,9 @@ public class ReportPatternApplicationService {
 
         entity.setPatternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()));
 
-        patternRepository.save(entity);
+        ReportPattern reportPattern = patternRepository.save(entity);
+
+        filePatternRepository.store(reportPattern, file);
     }
 
     public PatternFile download(Long patternId) {
@@ -101,6 +108,8 @@ public class ReportPatternApplicationService {
         ReportPattern entity = patternRepository.findById(patternId)
                 .orElseThrow(RuntimeException::new);
 
-        return entity.getPatternFile();
+        return entity
+                .withFile(filePatternRepository.load(entity))
+                .getPatternFile();
     }
 }
