@@ -17,7 +17,8 @@ public interface ReportPatternRepository extends CrudRepository<ReportPattern, L
     Optional<byte[]> filePatternOf(String reportName, String subsystem);
 
     @Query(""" 
-           select new com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo(p.informations.name, p.informations.description, p.informations.subsystem)
+           select new com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo(
+           p.informations.name, p.informations.description, p.informations.subsystem, p.informations.generationType)
            from ReportPattern p where p.informations.name = :reportName and p.informations.subsystem = :subsystem
            """)
     Optional<ReportPatternInfo> patternInformations(String reportName, String subsystem);

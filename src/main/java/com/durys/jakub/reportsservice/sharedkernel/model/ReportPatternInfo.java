@@ -3,6 +3,8 @@ package com.durys.jakub.reportsservice.sharedkernel.model;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternGenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +17,7 @@ public class ReportPatternInfo {
     private String subsystem;
 
     @Column(name = "GENERATION_TYPE")
+    @Enumerated(EnumType.STRING)
     private ReportPatternGenerationType generationType;
 
     public ReportPatternInfo(String name, String description, String subsystem) {
