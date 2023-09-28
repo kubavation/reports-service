@@ -25,8 +25,7 @@ public class LocalFilePatternRepository implements FilePatternRepository {
             }
 
             Files.write(Path.of(REPORTS_SPACE,
-                    pattern.getInformations().getSubsystem(),
-                    pattern.getInformations().getName()), file.getBytes());
+                    pattern.getInformations().getSubsystem(), file.getOriginalFilename()), file.getBytes());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
