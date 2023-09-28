@@ -2,6 +2,7 @@ package com.durys.jakub.reportsservice.pattern.infrastructure;
 
 import com.durys.jakub.reportsservice.pattern.domain.FilePatternRepository;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -11,20 +12,21 @@ import java.nio.file.Path;
 
 public class LocalFilePatternRepository implements FilePatternRepository {
 
-    private static final String REPORTS_SPACE = "C:\\Users\\48533\\projects\\reports";
+    @Value("${reports.export.space}")
+    private String reportsSpace;
 
     @Override
     public void store(ReportPattern pattern, MultipartFile file) {
 
         try {
 
-            Path subsystemPath = Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem());
+            Path subsystemPath = Path.of(reportsSpace, pattern.getInformations().getSubsystem());
 
             if (!Files.exists(subsystemPath)) {
                 Files.createDirectories(subsystemPath);
             }
 
-            Files.write(Path.of(REPORTS_SPACE,
+            Files.write(Path.of(reportsSpace,
                     pattern.getInformations().getSubsystem(), file.getOriginalFilename()), file.getBytes());
 
         } catch (IOException e) {
@@ -43,6 +45,6 @@ public class LocalFilePatternRepository implements FilePatternRepository {
 
     @Override
     public Path path(ReportPattern pattern) {
-        return Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem(), pattern.getPatternFile().getFileName());
+        return Path.of(reportsSpace, pattern.getInformations().getSubsystem(), pattern.getPatternFile().getFileName());
     }
 }
