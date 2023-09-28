@@ -29,9 +29,6 @@ public class ReportPattern {
     @Embedded
     private PatternFile patternFile;
 
-    @Column(name = "GENERATION_TYPE")
-    private ReportPatternGenerationType generationType;
-
     @OneToMany(
             mappedBy = "pattern",
             cascade = CascadeType.ALL,
