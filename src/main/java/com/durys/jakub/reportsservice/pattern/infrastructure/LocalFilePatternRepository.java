@@ -26,8 +26,15 @@ public class LocalFilePatternRepository implements FilePatternRepository {
                 Files.createDirectories(subsystemPath);
             }
 
-            Files.write(Path.of(reportsSpace,
-                    pattern.getInformations().getSubsystem(), file.getOriginalFilename()), file.getBytes());
+            Path reportPath = Path.of(reportsSpace, pattern.getInformations().getSubsystem(), pattern.getInformations().getName());
+
+            if (!Files.exists(reportPath)) {
+                Files.createDirectories(reportPath);
+            }
+
+            Files.write(Path.of(
+                    reportsSpace, pattern.getInformations().getSubsystem(),
+                    pattern.getInformations().getName(), file.getOriginalFilename()), file.getBytes());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -45,6 +52,9 @@ public class LocalFilePatternRepository implements FilePatternRepository {
 
     @Override
     public Path path(ReportPattern pattern) {
-        return Path.of(reportsSpace, pattern.getInformations().getSubsystem(), pattern.getPatternFile().getFileName());
+        return Path.of(reportsSpace,
+                pattern.getInformations().getSubsystem(),
+                pattern.getInformations().getName(),
+                pattern.getPatternFile().getFileName());
     }
 }

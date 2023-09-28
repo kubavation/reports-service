@@ -14,6 +14,7 @@ import com.durys.jakub.reportsservice.scheduling.event.GenerateScheduledReportEv
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class ScheduleReportGenerationHandler {
 
@@ -33,8 +35,11 @@ public class ScheduleReportGenerationHandler {
     @Async
     public void handle(GenerateScheduledReportEvent event) {
 
+        log.info("handling GenerateScheduledReportEvent (report_id: {})", event.reportId());
+
         Report report = reportRepository.find(event.reportId())
                 .orElseThrow(RuntimeException::new);
+
 
         generate(report)
                 .peek(rep -> notificationClient.send(

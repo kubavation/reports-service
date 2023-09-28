@@ -37,7 +37,7 @@ public class ReportScheduledGeneratorService {
                 .collect(Collectors.toSet());
 
         Report report = reportRepository.save(
-                Report.instanceOf(pattern, format.format(), UUID.randomUUID()) //todo get from token
+                Report.instanceOf(pattern, format.name(), UUID.randomUUID()) //todo get from token
                         .withParameters(parameters)
         );
 
