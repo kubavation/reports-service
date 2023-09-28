@@ -28,6 +28,7 @@ class ConnectionProvider {
         }
     }
 
+
     private static String urlTo(String subsystem, Environment environment) {
         String url = environment.getProperty("%s.db.url".formatted(subsystem));
         if (StringUtils.isEmpty(url)) {

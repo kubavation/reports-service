@@ -30,4 +30,8 @@ public class ReportPatternInfo {
         this.subsystem = subsystem;
         this.generationType = generationType;
     }
+
+    public boolean dbGeneration() {
+        return ReportPatternGenerationType.DB.equals(generationType);
+    }
 }
