@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Set;
 
 @Component
@@ -26,16 +26,14 @@ public class ReportPatternApplicationService {
     private final ReportPatternRepository patternRepository;
     private final FilePatternRepository filePatternRepository;
 
-    public InputStream filePattern(String name, String subsystem) {
+    public Path patternFilePath(String name, String subsystem) {
 
-        log.info("loading report pattern of name: {} and subsystem: {}", name, subsystem);
+        log.info("loading report pattern file path of name: {} and subsystem: {}", name, subsystem);
 
         ReportPattern pattern = patternRepository.findBy(subsystem, name)
                 .orElseThrow(RuntimeException::new);
 
-        byte[] bytes = filePatternRepository.load(pattern);
-
-        return new ByteArrayInputStream(bytes);
+        return filePatternRepository.path(pattern);
     }
 
     public ReportPatternInfo reportPatternInfo(String name, String subsystem) {
@@ -101,7 +99,7 @@ public class ReportPatternApplicationService {
         filePatternRepository.store(reportPattern, file);
     }
 
-    public PatternFile download(Long patternId) {
+    public PatternFile download(Long patternId) throws IOException {
 
         log.info("downloading file pattern (ID: {})", patternId);
 
@@ -109,7 +107,7 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
 
         return entity
-                .withFile(filePatternRepository.load(entity))
+                .withFile(Files.readAllBytes(filePatternRepository.path(entity)))
                 .getPatternFile();
     }
 }

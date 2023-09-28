@@ -20,7 +20,7 @@ class PatternConverter {
 
     static ReportPattern convert(ReportPatternDTO dto, MultipartFile file) throws IOException {
         return ReportPattern.builder()
-                .informations(new ReportPatternInfo(dto.getName(), dto.getDescription(), dto.getSubsystem()))
+                .informations(new ReportPatternInfo(dto.getName(), dto.getDescription(), dto.getSubsystem(), dto.getGenerationType()))
                 .patternFile(new PatternFile(file.getBytes(), file.getOriginalFilename()))
                 .status(Status.ACTIVE)
                 .build();

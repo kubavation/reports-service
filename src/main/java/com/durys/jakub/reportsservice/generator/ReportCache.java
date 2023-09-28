@@ -9,13 +9,14 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRSaver;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class ReportCache {
 
-    static Try<JasperReport> compiledReport(InputStream patternIS) {
-        return Try.of(() -> (JasperReport) JRLoader.loadObject(patternIS));
+    static Try<JasperReport> compiledReport(Path path) {
+        return Try.of(() -> (JasperReport) JRLoader.loadObject(path.toFile()));
     }
 
     static void cache(JasperReport report) {
