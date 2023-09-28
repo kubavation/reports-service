@@ -1,10 +1,10 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure;
 
 import com.durys.jakub.reportsservice.pattern.domain.FilePatternRepository;
-import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,12 +34,16 @@ public class LocalFilePatternRepository implements FilePatternRepository {
     }
 
     @Override
-    public byte[] load(ReportPattern pattern) {
-        var path = Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem(), pattern.getInformations().getName());
+    public File load(ReportPattern pattern) {
         try {
-            return Files.readAllBytes(path);
-        } catch (IOException e) {
+            return path(pattern).toFile();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Path path(ReportPattern pattern) {
+        return Path.of(REPORTS_SPACE, pattern.getInformations().getSubsystem(), pattern.getPatternFile().getFileName());
     }
 }
