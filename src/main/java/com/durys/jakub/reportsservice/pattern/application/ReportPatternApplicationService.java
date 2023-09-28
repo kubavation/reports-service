@@ -13,9 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 
@@ -100,7 +99,7 @@ public class ReportPatternApplicationService {
         filePatternRepository.store(reportPattern, file);
     }
 
-    public PatternFile download(Long patternId) {
+    public PatternFile download(Long patternId) throws IOException {
 
         log.info("downloading file pattern (ID: {})", patternId);
 
@@ -108,7 +107,7 @@ public class ReportPatternApplicationService {
                 .orElseThrow(RuntimeException::new);
 
         return entity
-                .withFile(null)
+                .withFile(Files.readAllBytes(filePatternRepository.path(entity)))
                 .getPatternFile();
     }
 }
