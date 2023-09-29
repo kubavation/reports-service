@@ -50,12 +50,7 @@ public class ReportsGenerationController {
     @ApiResponse(responseCode = "200", description = "Report scheduled for generation")
     @PostMapping("/scheduling")
     public void schedule(@Parameter(description = "Scheduled report with params") @RequestBody ScheduleReportCreation scheduledReport) {
-        reportScheduledGeneratorService.schedule(
-                scheduledReport.getReportName(),
-                scheduledReport.getSubsystem(),
-                scheduledReport.getParameters(),
-                scheduledReport.getFormat(),
-                scheduledReport.getAt());
+        reportScheduledGeneratorService.schedule(scheduledReport);
     }
 
     @Operation(summary = "Downloading generated report")

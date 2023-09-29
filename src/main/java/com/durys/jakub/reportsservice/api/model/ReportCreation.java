@@ -10,4 +10,6 @@ public class ReportCreation {
     private String subsystem;
     private ReportFormat format;
     private Set<ReportCreationParam> parameters;
+    private String title;
+    private String description;
 }
