@@ -36,8 +36,7 @@ public class ReportsGenerationController {
     public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
                                              @RequestBody ReportCreation report) throws Exception {
 
-        GeneratedReport generated = reportGenerator.generate(report.getReportName(), report.getSubsystem(),
-                report.getParameters(), report.getFormat());
+        GeneratedReport generated = reportGenerator.generate(report);
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))
