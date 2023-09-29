@@ -40,12 +40,19 @@ public class Report {
     @Column(name = "TENANT_ID")
     private UUID tenantId;
 
+    private String title;
 
-    public static Report instanceOf(ReportPatternInfo patternInformations, String format, UUID author) {
+    private String description;
+
+
+    public static Report instanceOf(ReportPatternInfo patternInformations,
+                                    String format, UUID author, String title, String description) {
         return Report.builder()
                 .patternInformations(patternInformations)
                 .format(format)
                 .tenantId(author)
+                .title(title)
+                .description(description)
                 .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
     }

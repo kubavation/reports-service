@@ -56,7 +56,9 @@ public class ReportPatternApplicationService {
 
         reportPattern.setParameters(parameters);
 
-        patternRepository.save(reportPattern);
+        ReportPattern saved = patternRepository.save(reportPattern);
+
+        filePatternRepository.store(saved, file);
     }
 
     @Transactional

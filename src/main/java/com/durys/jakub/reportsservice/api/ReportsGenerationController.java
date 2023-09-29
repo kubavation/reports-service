@@ -36,8 +36,7 @@ public class ReportsGenerationController {
     public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
                                              @RequestBody ReportCreation report) throws Exception {
 
-        GeneratedReport generated = reportGenerator.generate(report.getReportName(), report.getSubsystem(),
-                report.getParameters(), report.getFormat());
+        GeneratedReport generated = reportGenerator.generate(report);
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))
@@ -50,12 +49,7 @@ public class ReportsGenerationController {
     @ApiResponse(responseCode = "200", description = "Report scheduled for generation")
     @PostMapping("/scheduling")
     public void schedule(@Parameter(description = "Scheduled report with params") @RequestBody ScheduleReportCreation scheduledReport) {
-        reportScheduledGeneratorService.schedule(
-                scheduledReport.getReportName(),
-                scheduledReport.getSubsystem(),
-                scheduledReport.getParameters(),
-                scheduledReport.getFormat(),
-                scheduledReport.getAt());
+        reportScheduledGeneratorService.schedule(scheduledReport);
     }
 
     @Operation(summary = "Downloading generated report")
