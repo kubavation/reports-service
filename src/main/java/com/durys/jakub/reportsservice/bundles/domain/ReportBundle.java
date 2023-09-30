@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -40,6 +41,12 @@ public class ReportBundle {
         this.name = name;
         this.status = Status.ACTIVE;
         this.reports = Collections.emptySet();
+    }
+
+    public ReportBundle(String name, Set<Report> reports) {
+        this.name = name;
+        this.status = Status.ACTIVE;
+        this.reports = Objects.requireNonNullElse(reports, Collections.emptySet());
     }
 
 }

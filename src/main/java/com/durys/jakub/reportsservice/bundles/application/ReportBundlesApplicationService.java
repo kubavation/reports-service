@@ -27,15 +27,11 @@ public class ReportBundlesApplicationService {
 
         log.info("creating report bundle with name {}", bundle.getName());
 
-        ReportBundle reportBundle = new ReportBundle(bundle.getName());
+        List<Report> reports = reportRepository.findAllById(bundle.getReportIds());
 
-        ReportBundle entity = reportBundleRepository.save(reportBundle);
+        ReportBundle reportBundle = new ReportBundle(bundle.getName(), new HashSet<>(reports));
 
-        if (CollectionUtils.isEmpty(bundle.getReportIds())) {
-            List<Report> reports = reportRepository.findAllById(bundle.getReportIds());
-            entity.setReports(new HashSet<>(reports));
-        }
-
+        reportBundleRepository.save(reportBundle);
     }
 
 
