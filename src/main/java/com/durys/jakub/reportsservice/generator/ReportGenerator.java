@@ -2,6 +2,7 @@ package com.durys.jakub.reportsservice.generator;
 
 import com.durys.jakub.reportsservice.api.model.ReportCreation;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
+import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;

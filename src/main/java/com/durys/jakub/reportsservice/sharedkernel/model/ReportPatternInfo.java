@@ -12,8 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReportPatternInfo {
+
+    @Column(name = "PATTERN_NAME")
     private String name;
+    @Column(name = "PATTERN_DESCRIPTION")
     private String description;
+    @Column(name = "PATTER_SUBSYSTEM")
     private String subsystem;
 
     @Column(name = "GENERATION_TYPE")

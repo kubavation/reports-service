@@ -4,6 +4,7 @@ import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
+import com.durys.jakub.reportsservice.api.model.ReportCreation;
 import com.durys.jakub.reportsservice.api.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
@@ -53,14 +54,23 @@ public class ScheduleReportGenerationHandler {
 
     private Either<Report, Report> generate(Report report) {
         try {
-            final ReportPatternInfo info = report.getPatternInformations();
 
             var parameters = report.getParameters()
                     .stream()
                     .map(param -> new ReportCreationParam(param.getName(), param.getValue()))
                     .collect(Collectors.toSet());
 
-            GeneratedReport generated = reportGenerator.generate(info.getName(), info.getSubsystem(), parameters, ReportFormat.valueOf(report.getFormat()));
+            var createReport = ReportCreation.builder()
+                    .subsystem(report.getPatternInformations().getSubsystem())
+                    .reportName(report.getPatternInformations().getName())
+                    .parameters(parameters)
+                    .format(ReportFormat.valueOf(report.getFormat()))
+                    .title(report.getTitle())
+                    .description(report.getDescription())
+                    .build();
+
+            GeneratedReport generated = reportGenerator.generate(createReport);
+
             return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
         } catch (Exception e) {
             return Either.left(reportRepository.save(report.markAsFailed()));
