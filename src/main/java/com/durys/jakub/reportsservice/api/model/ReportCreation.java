@@ -1,10 +1,16 @@
 package com.durys.jakub.reportsservice.api.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReportCreation {
     private String reportName;
     private String subsystem;
