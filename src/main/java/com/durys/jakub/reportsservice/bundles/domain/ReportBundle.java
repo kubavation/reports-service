@@ -54,4 +54,10 @@ public class ReportBundle {
         return this;
     }
 
+    public ReportBundle markAsDeleted() {
+        this.status = Status.DELETED;
+        this.reports = Collections.emptySet();
+        return this;
+    }
+
 }

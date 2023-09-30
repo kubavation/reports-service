@@ -47,4 +47,15 @@ public class ReportBundlesApplicationService {
 
         reportBundle.append(new HashSet<>(reports));
     }
+
+    public void delete(Long bundleId) {
+
+        log.info("delete report bundle (ID: {})", bundleId);
+
+        ReportBundle reportBundle = reportBundleRepository.findById(bundleId)
+                .map(ReportBundle::markAsDeleted)
+                .orElseThrow(RuntimeException::new);
+
+        reportBundleRepository.save(reportBundle);
+    }
 }

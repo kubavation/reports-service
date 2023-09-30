@@ -41,7 +41,7 @@ public class ReportBundlesController {
 
     @DeleteMapping("/{bundleId}")
     void delete(@PathVariable Long bundleId) {
-        //todo
+       reportBundlesApplicationService.delete(bundleId);
     }
 
 }
