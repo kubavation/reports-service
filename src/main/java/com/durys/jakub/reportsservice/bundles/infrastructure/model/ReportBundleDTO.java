@@ -7,4 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReportBundleDTO {
     private String name;
+
+    public ReportBundleDTO(String name) {
+        this.name = name;
+    }
 }

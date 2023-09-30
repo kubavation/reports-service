@@ -1,5 +1,7 @@
 package com.durys.jakub.reportsservice.bundles.infrastructure.in;
 
+import com.durys.jakub.reportsservice.bundles.application.ReportBundlesApplicationService;
+import com.durys.jakub.reportsservice.bundles.domain.ReportBundleRepository;
 import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.report.domain.Report;
@@ -14,9 +16,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ReportBundlesController {
 
+    private final ReportBundlesApplicationService reportBundlesApplicationService;
+    private final ReportBundleRepository reportBundleRepository;
+
     @GetMapping
     Set<ReportBundleDTO> reportBundles() {
-        return Collections.emptySet(); //todo
+        return reportBundleRepository.all();
     }
 
     @GetMapping("/{bundleId}/reports")
