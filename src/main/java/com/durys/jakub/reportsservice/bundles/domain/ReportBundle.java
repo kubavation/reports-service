@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -34,5 +35,11 @@ public class ReportBundle {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public ReportBundle(String name) {
+        this.name = name;
+        this.status = Status.ACTIVE;
+        this.reports = Collections.emptySet();
+    }
 
 }
