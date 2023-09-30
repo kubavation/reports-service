@@ -30,13 +30,13 @@ public class ReportBundlesController {
     }
 
     @PatchMapping("/{bundleId}/reports")
-    void appendToBundle(@RequestBody Set<Long> reportIds) {
-        //todo
+    void appendToBundle(@PathVariable Long bundleId, @RequestBody Set<Long> reportIds) {
+        reportBundlesApplicationService.append(bundleId, reportIds);
     }
 
     @PostMapping
     void create(@RequestBody CreateReportBundleDTO reportBundleDTO) {
-        //todo
+        reportBundlesApplicationService.create(reportBundleDTO);
     }
 
     @DeleteMapping("/{bundleId}")

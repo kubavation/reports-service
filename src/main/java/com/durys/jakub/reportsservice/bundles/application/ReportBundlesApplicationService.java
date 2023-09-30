@@ -9,10 +9,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -35,4 +35,16 @@ public class ReportBundlesApplicationService {
     }
 
 
+    @Transactional
+    public void append(Long bundleId, Set<Long> reportIds) {
+
+        log.info("append report bundle (ID: {})", bundleId);
+
+        ReportBundle reportBundle = reportBundleRepository.findById(bundleId)
+                .orElseThrow(RuntimeException::new);
+
+        List<Report> reports = reportRepository.findAllById(reportIds);
+
+        reportBundle.append(new HashSet<>(reports));
+    }
 }

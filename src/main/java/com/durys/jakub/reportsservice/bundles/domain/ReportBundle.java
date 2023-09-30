@@ -49,4 +49,9 @@ public class ReportBundle {
         this.reports = Objects.requireNonNullElse(reports, Collections.emptySet());
     }
 
+    public ReportBundle append(Set<Report> reports) {
+        this.reports.addAll(reports);
+        return this;
+    }
+
 }
