@@ -1,4 +1,4 @@
 package com.durys.jakub.reportsservice.cqrs.command;
 
-public interface Command {
+public interface Command<T> {
 }
