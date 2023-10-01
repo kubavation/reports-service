@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.cqrs.configuration;
 
+import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandlerProvider;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -11,5 +12,10 @@ class CqrsConfiguration {
     @Bean
     CommandHandlerProvider commandHandlerProvider(ConfigurableListableBeanFactory factory) {
         return new SpringCommandHandlerProvider(factory);
+    }
+
+    @Bean
+    CommandGateway commandGateway(CommandHandlerProvider commandHandlerProvider) {
+        return new SpringCommandGateway(commandHandlerProvider);
     }
 }

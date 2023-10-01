@@ -4,9 +4,7 @@ import com.durys.jakub.reportsservice.cqrs.command.Command;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandlerProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
 public class SpringCommandGateway implements CommandGateway {
 
