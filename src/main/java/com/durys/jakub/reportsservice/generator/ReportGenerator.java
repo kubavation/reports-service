@@ -1,6 +1,8 @@
 package com.durys.jakub.reportsservice.generator;
 
 import com.durys.jakub.reportsservice.api.model.ReportCreation;
+import com.durys.jakub.reportsservice.api.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
@@ -15,6 +17,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 @Component
 @Slf4j
@@ -40,6 +43,24 @@ public class ReportGenerator {
         return new GeneratedReport(
                 ReportPrintService.print(generated, report.getFormat()),
                 report.getReportName(), report.getFormat().format());
+
+    }
+
+    @SneakyThrows
+    public GeneratedReport generate(String reportName, String subsystem, Set<ReportCreationParam> parameters,
+                                    ReportFormat format) {
+
+        log.info("generating report {} for subsystem {}", reportName, subsystem);
+
+        ReportPatternInfo patternInfo = reportPatternService.reportPatternInfo(reportName, subsystem);
+        Path filePath = reportPatternService.patternFilePath(reportName, subsystem);
+
+        JasperReport jasperReport = ReportCache.compiledReport(filePath)
+                .getOrElseGet(r -> compile(filePath));
+
+        JasperPrint generated = reportParametersService.fill(jasperReport, parameters, patternInfo);
+
+        return new GeneratedReport(ReportPrintService.print(generated, format), reportName, format.format());
 
     }
 

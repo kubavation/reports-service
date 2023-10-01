@@ -2,16 +2,19 @@ package com.durys.jakub.reportsservice.report.handler;
 
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
+import com.durys.jakub.reportsservice.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import lombok.RequiredArgsConstructor;
 
 @CommandHandling
-public class GenerateReportCommandHandler implements CommandHandler<GenerateReportCommand, ResponseEntity<Resource>> {
+@RequiredArgsConstructor
+public class GenerateReportCommandHandler implements CommandHandler<GenerateReportCommand, GeneratedReport> {
 
+    private final ReportGenerator reportGenerator;
 
     @Override
-    public ResponseEntity<Resource> handle(GenerateReportCommand command) {
-        return null;
+    public GeneratedReport handle(GenerateReportCommand command) {
+        return reportGenerator.generate(command.reportName(), command.subsystem(), command.parameters(), command.format());
     }
 }

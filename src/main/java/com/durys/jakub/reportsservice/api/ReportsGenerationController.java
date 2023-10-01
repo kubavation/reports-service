@@ -2,8 +2,10 @@ package com.durys.jakub.reportsservice.api;
 
 import com.durys.jakub.reportsservice.api.model.ReportCreation;
 import com.durys.jakub.reportsservice.api.model.ScheduleReportCreation;
+import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
+import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
 import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +31,7 @@ public class ReportsGenerationController {
     private final ReportGenerator reportGenerator;
     private final ReportScheduledGeneratorService reportScheduledGeneratorService;
     private final ReportApplicationService reportApplicationService;
+    private final CommandGateway commandGateway;
 
     @Operation(summary = "Generation of report")
     @ApiResponse(responseCode = "200", description = "Report generated")
@@ -36,7 +39,13 @@ public class ReportsGenerationController {
     public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
                                              @RequestBody ReportCreation report) throws Exception {
 
-        GeneratedReport generated = reportGenerator.generate(report);
+        GeneratedReport generated = commandGateway.dispatch(new GenerateReportCommand(
+                                report.getReportName(),
+                                report.getSubsystem(),
+                                report.getFormat(),
+                                report.getParameters(),
+                                report.getTitle(),
+                                report.getDescription()));
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))
