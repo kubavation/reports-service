@@ -1,5 +1,7 @@
 package com.durys.jakub.reportsservice.scheduling;
 
+import com.durys.jakub.reportsservice.api.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.api.model.ReportFormat;
 import com.durys.jakub.reportsservice.api.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.report.domain.Report;
@@ -12,6 +14,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,6 +43,25 @@ public class ReportScheduledGeneratorService {
         );
 
         scheduledReportsRepository.save(new ScheduledReport(scheduleReport.getId(), report.getAt()));
+
+    }
+
+    @Transactional
+    public void schedule(String reportName, String subsystem, Set<ReportCreationParam> params, ReportFormat format,
+                         String title, String description, LocalDateTime at) {
+
+        ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
+
+        var parameters = params.stream()
+                .map(param -> new ReportParameter(param.getName(), param.getValue()))
+                .collect(Collectors.toSet());
+
+        Report scheduleReport = reportRepository.save(
+                Report.instanceOf(pattern, format.name(), UUID.randomUUID(), title, description)
+                        .withParameters(parameters)
+        );
+
+        scheduledReportsRepository.save(new ScheduledReport(scheduleReport.getId(), at));
 
     }
 }

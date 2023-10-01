@@ -6,6 +6,7 @@ import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
 import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
+import com.durys.jakub.reportsservice.report.command.ScheduleReportGenerationCommand;
 import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,7 +59,14 @@ public class ReportsGenerationController {
     @ApiResponse(responseCode = "200", description = "Report scheduled for generation")
     @PostMapping("/scheduling")
     public void schedule(@Parameter(description = "Scheduled report with params") @RequestBody ScheduleReportCreation scheduledReport) {
-        reportScheduledGeneratorService.schedule(scheduledReport);
+        commandGateway.dispatch(new ScheduleReportGenerationCommand(
+                scheduledReport.getReportName(),
+                scheduledReport.getSubsystem(),
+                scheduledReport.getFormat(),
+                scheduledReport.getParameters(),
+                scheduledReport.getTitle(),
+                scheduledReport.getDescription(),
+                scheduledReport.getAt()));
     }
 
     @Operation(summary = "Downloading generated report")
