@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class SpringCommandHandlerProvider implements CommandHandlerProvider {
@@ -29,7 +29,6 @@ public class SpringCommandHandlerProvider implements CommandHandlerProvider {
     }
 
     private Map<Class<? extends Command>, String> initialize() {
-
         return factory.getBeansOfType(CommandHandler.class)
                 .entrySet()
                 .stream()
@@ -38,14 +37,10 @@ public class SpringCommandHandlerProvider implements CommandHandlerProvider {
     }
 
     private Class<? extends Command> findCommand(Class<? extends CommandHandler> handlerClass) {
-        Type[] types = handlerClass.getGenericInterfaces();
-
-        for (Type type: types) {
-            if (type instanceof ParameterizedType parameterizedType) {
-                return (Class<? extends Command>) parameterizedType.getActualTypeArguments()[0];
-            }
-        }
-
-        return null;
+        return Stream.of(handlerClass.getGenericInterfaces())
+                .filter(ParameterizedType.class::isInstance)
+                .map(type -> (Class<? extends Command>) ((ParameterizedType) type).getActualTypeArguments()[0])
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Invalid command handler configuration"));
     }
 }
