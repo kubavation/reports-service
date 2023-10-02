@@ -74,7 +74,7 @@ public class ReportsGenerationController {
     @GetMapping("/{reportId}")
     public ResponseEntity<Resource> download(@Parameter(description = "Identity of report") @PathVariable Long reportId) {
 
-        GeneratedReport generated = reportApplicationService.download(reportId);
+        GeneratedReport generated = reportApplicationService.find(reportId);
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))
