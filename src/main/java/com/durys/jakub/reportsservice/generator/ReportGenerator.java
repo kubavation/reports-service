@@ -1,10 +1,9 @@
 package com.durys.jakub.reportsservice.generator;
 
-import com.durys.jakub.reportsservice.api.model.ReportCreation;
-import com.durys.jakub.reportsservice.api.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.api.model.ReportFormat;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreation;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ReportFormat;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
-import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;

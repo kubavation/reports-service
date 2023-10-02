@@ -1,7 +1,7 @@
-package com.durys.jakub.reportsservice.api;
+package com.durys.jakub.reportsservice.report.infrastructure.in;
 
-import com.durys.jakub.reportsservice.api.model.ReportCreation;
-import com.durys.jakub.reportsservice.api.model.ScheduleReportCreation;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreation;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
 import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
