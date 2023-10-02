@@ -11,7 +11,7 @@ public class SpringCommandGateway implements CommandGateway {
     private final CommandHandlerProvider commandHandlerProvider;
 
     @Override
-    public <T extends Command, R> R dispatch(T command) {
+    public <T extends Command<R>, R> R dispatch(T command) {
         return (R) commandHandlerProvider.commandHandlerOf(command).handle(command);
     }
 }

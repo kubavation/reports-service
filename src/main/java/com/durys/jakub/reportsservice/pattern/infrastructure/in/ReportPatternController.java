@@ -1,13 +1,11 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
-import com.durys.jakub.reportsservice.api.ReportsGenerationController;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

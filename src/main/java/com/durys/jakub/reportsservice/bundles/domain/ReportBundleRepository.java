@@ -1,6 +1,6 @@
 package com.durys.jakub.reportsservice.bundles.domain;
 
-import com.durys.jakub.reportsservice.bundles.infrastructure.model.ReportBundleDTO;
+import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

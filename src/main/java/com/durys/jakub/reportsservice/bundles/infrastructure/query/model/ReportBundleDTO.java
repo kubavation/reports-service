@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.bundles.infrastructure.model;
+package com.durys.jakub.reportsservice.bundles.infrastructure.query.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.durys.jakub.reportsservice.report.command;
 
-import com.durys.jakub.reportsservice.api.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.api.model.ReportFormat;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.report.infrastructure.model.ReportFormat;
 import com.durys.jakub.reportsservice.cqrs.command.Command;
 
 import java.time.LocalDateTime;
