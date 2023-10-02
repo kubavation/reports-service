@@ -24,7 +24,7 @@ public class SpringCommandHandlerProvider implements CommandHandlerProvider {
     }
 
     @Override
-    public <T extends Command, R> CommandHandler<T, R> commandHandlerOf(T command) {
+    public <T extends Command<R>, R> CommandHandler<T, R> commandHandlerOf(T command) {
         return factory.getBean(handlers.get(command.getClass()), CommandHandler.class);
     }
 
