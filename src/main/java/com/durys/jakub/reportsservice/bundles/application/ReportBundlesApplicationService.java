@@ -29,7 +29,7 @@ public class ReportBundlesApplicationService {
 
         List<Report> reports = reportRepository.findAllById(bundle.getReportIds());
 
-        ReportBundle reportBundle = new ReportBundle(bundle.getName(), new HashSet<>(reports));
+        ReportBundle reportBundle = new ReportBundle(bundle.getName(), Set.copyOf(reports));
 
         reportBundleRepository.save(reportBundle);
     }
@@ -45,7 +45,7 @@ public class ReportBundlesApplicationService {
 
         List<Report> reports = reportRepository.findAllById(reportIds);
 
-        reportBundle.append(new HashSet<>(reports));
+        reportBundle.append(Set.copyOf(reports));
     }
 
     public void delete(Long bundleId) {

@@ -8,7 +8,7 @@ import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportParameter;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReport;
-import com.durys.jakub.reportsservice.scheduling.infrastructure.ScheduledReportsRepository;
+import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReportsRepository;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,25 +26,6 @@ public class ReportScheduledGeneratorService {
     private final ReportRepository reportRepository;
     private final ScheduledReportsRepository scheduledReportsRepository;
     private final ReportPatternApplicationService reportPatternService;
-
-
-    @Transactional
-    public void schedule(ScheduleReportCreation report) {
-
-        ReportPatternInfo pattern = reportPatternService.reportPatternInfo(report.getReportName(), report.getSubsystem());
-
-        var parameters = report.getParameters().stream()
-                .map(param -> new ReportParameter(param.getName(), param.getValue()))
-                .collect(Collectors.toSet());
-
-        Report scheduleReport = reportRepository.save(
-                Report.instanceOf(pattern, report.getFormat().name(), UUID.randomUUID(), report.getTitle(), report.getDescription())
-                        .withParameters(parameters)
-        );
-
-        scheduledReportsRepository.save(new ScheduledReport(scheduleReport.getId(), report.getAt()));
-
-    }
 
     @Transactional
     public void schedule(String reportName, String subsystem, Set<ReportCreationParam> params, ReportFormat format,
