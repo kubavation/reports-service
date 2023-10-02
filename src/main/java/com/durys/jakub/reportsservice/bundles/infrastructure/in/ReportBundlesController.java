@@ -1,15 +1,13 @@
 package com.durys.jakub.reportsservice.bundles.infrastructure.in;
 
-import com.durys.jakub.reportsservice.bundles.application.ReportBundlesApplicationService;
-import com.durys.jakub.reportsservice.bundles.domain.ReportBundleRepository;
 import com.durys.jakub.reportsservice.bundles.domain.command.AppendReportsToBundleCommand;
 import com.durys.jakub.reportsservice.bundles.domain.command.CreateReportBundleCommand;
 import com.durys.jakub.reportsservice.bundles.domain.command.DeleteReportBundleCommand;
 import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportBundles;
-import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportsInBundleQuery;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.handler.ReportBundlesQueryService;
+import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportInBundleDTO;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +20,6 @@ import java.util.Set;
 @RequestMapping("/report-bundles")
 @RequiredArgsConstructor
 public class ReportBundlesController {
-
-    private final ReportBundlesApplicationService reportBundlesApplicationService;
-    private final ReportBundleRepository reportBundleRepository;
     private final ReportBundlesQueryService reportBundlesQueryService;
     private final CommandGateway commandGateway;
 
