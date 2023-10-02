@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface ReportBundleRepository extends JpaRepository<ReportBundle, Long> {
 
-    @Query("select new com.durys.jakub.reportsservice.bundles.infrastructure.model.ReportBundleDTO(r.name) from ReportBundle r")
+    @Query("select new com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO(r.name) from ReportBundle r")
     Set<ReportBundleDTO> all();
 
     @Query("select r from Report r join ReportBundle b where b.id = :bundleId")
