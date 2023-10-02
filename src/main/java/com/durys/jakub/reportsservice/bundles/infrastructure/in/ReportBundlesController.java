@@ -4,6 +4,7 @@ import com.durys.jakub.reportsservice.bundles.application.ReportBundlesApplicati
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundleRepository;
 import com.durys.jakub.reportsservice.bundles.domain.command.AppendReportsToBundleCommand;
 import com.durys.jakub.reportsservice.bundles.domain.command.CreateReportBundleCommand;
+import com.durys.jakub.reportsservice.bundles.domain.command.DeleteReportBundleCommand;
 import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportBundles;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
@@ -52,7 +53,8 @@ public class ReportBundlesController {
 
     @DeleteMapping("/{bundleId}")
     void delete(@PathVariable Long bundleId) {
-       reportBundlesApplicationService.delete(bundleId);
+       commandGateway.dispatch(
+               new DeleteReportBundleCommand(bundleId));
     }
 
 }
