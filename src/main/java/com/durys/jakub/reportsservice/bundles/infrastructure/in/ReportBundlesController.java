@@ -5,7 +5,8 @@ import com.durys.jakub.reportsservice.bundles.domain.ReportBundleRepository;
 import com.durys.jakub.reportsservice.bundles.domain.command.AppendReportsToBundleCommand;
 import com.durys.jakub.reportsservice.bundles.domain.command.CreateReportBundleCommand;
 import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
-import com.durys.jakub.reportsservice.bundles.infrastructure.model.ReportBundleDTO;
+import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportBundles;
+import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportsInBundleQuery;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.handler.ReportBundlesQueryService;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportInBundleDTO;
@@ -28,7 +29,7 @@ public class ReportBundlesController {
 
     @GetMapping
     Set<ReportBundleDTO> reportBundles() {
-        return reportBundleRepository.all();
+        return reportBundlesQueryService.handle(new FindReportBundles());
     }
 
     @GetMapping("/{bundleId}/reports")
