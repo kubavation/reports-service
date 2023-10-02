@@ -3,11 +3,9 @@ package com.durys.jakub.reportsservice.api;
 import com.durys.jakub.reportsservice.api.model.ReportCreation;
 import com.durys.jakub.reportsservice.api.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
-import com.durys.jakub.reportsservice.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
 import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
 import com.durys.jakub.reportsservice.report.command.ScheduleReportGenerationCommand;
-import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,8 +27,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ReportsGenerationController {
 
-    private final ReportGenerator reportGenerator;
-    private final ReportScheduledGeneratorService reportScheduledGeneratorService;
     private final ReportApplicationService reportApplicationService;
     private final CommandGateway commandGateway;
 
@@ -38,9 +34,10 @@ public class ReportsGenerationController {
     @ApiResponse(responseCode = "200", description = "Report generated")
     @PostMapping("/generation")
     public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
-                                             @RequestBody ReportCreation report) throws Exception {
+                                             @RequestBody ReportCreation report) {
 
-        GeneratedReport generated = commandGateway.dispatch(new GenerateReportCommand(
+        GeneratedReport generated = commandGateway.dispatch(
+                new GenerateReportCommand(
                                 report.getReportName(),
                                 report.getSubsystem(),
                                 report.getFormat(),
@@ -59,15 +56,16 @@ public class ReportsGenerationController {
     @ApiResponse(responseCode = "200", description = "Report scheduled for generation")
     @PostMapping("/scheduling")
     public void schedule(@Parameter(description = "Scheduled report with params") @RequestBody ScheduleReportCreation scheduledReport) {
-        commandGateway.dispatch(new ScheduleReportGenerationCommand(
-                scheduledReport.getReportName(),
-                scheduledReport.getSubsystem(),
-                scheduledReport.getFormat(),
-                scheduledReport.getParameters(),
-                scheduledReport.getTitle(),
-                scheduledReport.getDescription(),
-                scheduledReport.getAt()));
-    }
+        commandGateway.dispatch(
+                new ScheduleReportGenerationCommand(
+                        scheduledReport.getReportName(),
+                        scheduledReport.getSubsystem(),
+                        scheduledReport.getFormat(),
+                        scheduledReport.getParameters(),
+                        scheduledReport.getTitle(),
+                        scheduledReport.getDescription(),
+                        scheduledReport.getAt()));
+        }
 
     @Operation(summary = "Downloading generated report")
     @ApiResponse(responseCode = "200", description = "Report downloaded")
