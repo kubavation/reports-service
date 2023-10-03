@@ -1,19 +1,17 @@
 package com.durys.jakub.reportsservice.bundles.infrastructure.query.handler;
 
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundleRepository;
-import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportBundles;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportsInBundleQuery;
-import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportInBundleDTO;
 import com.durys.jakub.reportsservice.cqrs.query.QueryHandler;
+import com.durys.jakub.reportsservice.cqrs.query.QueryHandling;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
-@QueryHandler
 @RequiredArgsConstructor
-public class ReportBundlesQueryService {
+@QueryHandling
+public class FindReportsInBundleQueryHandler implements QueryHandler<FindReportsInBundleQuery, List<ReportInBundleDTO>> {
 
     private final ReportBundleRepository reportBundleRepository;
 
@@ -27,9 +25,5 @@ public class ReportBundlesQueryService {
                         r.getPatternInformations().getDescription(),
                         r.getPatternInformations().getSubsystem()))
                 .toList();
-    }
-
-    public Set<ReportBundleDTO> handle(FindReportBundles query) {
-        return reportBundleRepository.all();
     }
 }

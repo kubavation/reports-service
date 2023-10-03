@@ -6,7 +6,6 @@ import com.durys.jakub.reportsservice.bundles.domain.command.DeleteReportBundleC
 import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportBundles;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportsInBundleQuery;
-import com.durys.jakub.reportsservice.bundles.infrastructure.query.handler.ReportBundlesQueryService;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportInBundleDTO;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
