@@ -2,6 +2,7 @@ package com.durys.jakub.reportsservice.cqrs.configuration;
 
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandlerProvider;
+import com.durys.jakub.reportsservice.cqrs.query.Queries;
 import com.durys.jakub.reportsservice.cqrs.query.QueryHandlerProvider;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +24,10 @@ class CqrsConfiguration {
     @Bean
     QueryHandlerProvider queryHandlerProvider(ConfigurableListableBeanFactory factory) {
         return new SpringQueryHandlerProvider(factory);
+    }
+
+    @Bean
+    Queries queries(QueryHandlerProvider handlerProvider) {
+        return new SpringQueryGateway(handlerProvider);
     }
 }

@@ -26,7 +26,7 @@ public class SpringQueryHandlerProvider implements QueryHandlerProvider {
     }
 
     @Override
-    public <T extends Query<R>, R> QueryHandler<T, R> queryHandlerFor(R query) {
+    public <T extends Query<R>, R> QueryHandler<T, R> queryHandlerFor(T query) {
         return factory.getBean(handlers.get(query.getClass()), QueryHandler.class);
     }
 
