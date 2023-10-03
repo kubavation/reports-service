@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.report.command;
+package com.durys.jakub.reportsservice.report.domain.command;
 
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.report.domain.ReportFormat;

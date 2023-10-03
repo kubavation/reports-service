@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.scheduling.event;
+package com.durys.jakub.reportsservice.scheduling.domain.event;
 
 import com.durys.jakub.reportsservice.event.Event;
 

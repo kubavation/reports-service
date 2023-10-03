@@ -3,7 +3,7 @@ package com.durys.jakub.reportsservice.report.application.handler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.generator.ReportGenerator;
-import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
+import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import lombok.RequiredArgsConstructor;
 

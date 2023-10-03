@@ -1,9 +1,9 @@
 package com.durys.jakub.reportsservice.report.infrastructure.in;
 
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
-import com.durys.jakub.reportsservice.report.command.DownloadReportCommand;
-import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
-import com.durys.jakub.reportsservice.report.command.ScheduleReportGenerationCommand;
+import com.durys.jakub.reportsservice.report.domain.command.DownloadReportCommand;
+import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
+import com.durys.jakub.reportsservice.report.domain.command.ScheduleReportGenerationCommand;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreation;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;

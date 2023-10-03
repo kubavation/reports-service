@@ -2,7 +2,7 @@ package com.durys.jakub.reportsservice.report.application.handler;
 
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
-import com.durys.jakub.reportsservice.report.command.ScheduleReportGenerationCommand;
+import com.durys.jakub.reportsservice.report.domain.command.ScheduleReportGenerationCommand;
 import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
 import lombok.RequiredArgsConstructor;
 
