@@ -9,6 +9,7 @@ import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportsIn
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportInBundleDTO;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
+import com.durys.jakub.reportsservice.cqrs.query.Queries;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,17 +20,18 @@ import java.util.Set;
 @RequestMapping("/report-bundles")
 @RequiredArgsConstructor
 public class ReportBundlesController {
-    private final ReportBundlesQueryService reportBundlesQueryService;
+
+    private final Queries queries;
     private final CommandGateway commandGateway;
 
     @GetMapping
     Set<ReportBundleDTO> reportBundles() {
-        return reportBundlesQueryService.handle(new FindReportBundles());
+        return queries.find(new FindReportBundles());
     }
 
     @GetMapping("/{bundleId}/reports")
     List<ReportInBundleDTO> reportsInBundle(@PathVariable Long bundleId) {
-        return reportBundlesQueryService.handle(new FindReportsInBundleQuery(bundleId));
+        return queries.find(new FindReportsInBundleQuery(bundleId));
     }
 
     @PatchMapping("/{bundleId}/reports")
