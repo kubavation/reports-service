@@ -9,7 +9,7 @@ import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreat
 import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
-import com.durys.jakub.reportsservice.generator.ReportGenerator;
+import com.durys.jakub.reportsservice.common.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
 import io.vavr.control.Either;

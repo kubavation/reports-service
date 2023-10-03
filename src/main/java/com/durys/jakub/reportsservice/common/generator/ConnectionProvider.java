@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.generator;
+package com.durys.jakub.reportsservice.common.generator;
 
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;

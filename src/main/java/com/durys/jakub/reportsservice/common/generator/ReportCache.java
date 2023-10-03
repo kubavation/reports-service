@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.generator;
+package com.durys.jakub.reportsservice.common.generator;
 
 import io.vavr.control.Try;
 import lombok.AccessLevel;
