@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.report.application.handler;
+package com.durys.jakub.reportsservice.report.application.command;
 
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;

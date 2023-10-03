@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.generator.handler;
+package com.durys.jakub.reportsservice.report.application.event;
 
 import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class ScheduleReportGenerationHandler {
+public class GenerateScheduledReportEventHandler {
 
     private final ReportGenerator reportGenerator;
     private final ReportRepository reportRepository;
