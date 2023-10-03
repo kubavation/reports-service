@@ -1,5 +1,6 @@
-package com.durys.jakub.reportsservice.report.infrastructure.model;
+package com.durys.jakub.reportsservice.report.infrastructure.in.model;
 
+import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

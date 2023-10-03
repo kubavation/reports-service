@@ -1,8 +1,7 @@
 package com.durys.jakub.reportsservice.scheduling;
 
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportFormat;
-import com.durys.jakub.reportsservice.report.infrastructure.model.ScheduleReportCreation;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportParameter;
