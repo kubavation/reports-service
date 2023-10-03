@@ -3,7 +3,7 @@ package com.durys.jakub.reportsservice.bundles.infrastructure.in;
 import com.durys.jakub.reportsservice.bundles.domain.command.AppendReportsToBundleCommand;
 import com.durys.jakub.reportsservice.bundles.domain.command.CreateReportBundleCommand;
 import com.durys.jakub.reportsservice.bundles.domain.command.DeleteReportBundleCommand;
-import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
+import com.durys.jakub.reportsservice.bundles.infrastructure.in.model.CreateReportBundleDTO;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportBundles;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.FindReportsInBundleQuery;
 import com.durys.jakub.reportsservice.bundles.infrastructure.query.model.ReportBundleDTO;
