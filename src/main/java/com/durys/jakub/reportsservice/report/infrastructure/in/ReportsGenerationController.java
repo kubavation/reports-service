@@ -1,11 +1,11 @@
 package com.durys.jakub.reportsservice.report.infrastructure.in;
 
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreation;
-import com.durys.jakub.reportsservice.report.infrastructure.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
-import com.durys.jakub.reportsservice.report.application.ReportApplicationService;
-import com.durys.jakub.reportsservice.report.command.GenerateReportCommand;
-import com.durys.jakub.reportsservice.report.command.ScheduleReportGenerationCommand;
+import com.durys.jakub.reportsservice.report.domain.command.DownloadReportCommand;
+import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
+import com.durys.jakub.reportsservice.report.domain.command.ScheduleReportGenerationCommand;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreation;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ScheduleReportCreation;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ReportsGenerationController {
 
-    private final ReportApplicationService reportApplicationService;
     private final CommandGateway commandGateway;
 
     @Operation(summary = "Generation of report")
@@ -72,7 +71,7 @@ public class ReportsGenerationController {
     @GetMapping("/{reportId}")
     public ResponseEntity<Resource> download(@Parameter(description = "Identity of report") @PathVariable Long reportId) {
 
-        GeneratedReport generated = reportApplicationService.find(reportId);
+        GeneratedReport generated = commandGateway.dispatch(new DownloadReportCommand(reportId));
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))

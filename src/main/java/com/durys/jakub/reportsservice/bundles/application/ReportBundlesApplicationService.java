@@ -2,7 +2,7 @@ package com.durys.jakub.reportsservice.bundles.application;
 
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundle;
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundleRepository;
-import com.durys.jakub.reportsservice.bundles.infrastructure.model.CreateReportBundleDTO;
+import com.durys.jakub.reportsservice.bundles.infrastructure.in.model.CreateReportBundleDTO;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import jakarta.transaction.Transactional;

@@ -1,17 +1,17 @@
-package com.durys.jakub.reportsservice.generator.handler;
+package com.durys.jakub.reportsservice.report.application.event;
 
 import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreation;
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportFormat;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreation;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
-import com.durys.jakub.reportsservice.generator.ReportGenerator;
+import com.durys.jakub.reportsservice.common.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
-import com.durys.jakub.reportsservice.scheduling.event.GenerateScheduledReportEvent;
+import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class ScheduleReportGenerationHandler {
+public class GenerateScheduledReportEventHandler {
 
     private final ReportGenerator reportGenerator;
     private final ReportRepository reportRepository;

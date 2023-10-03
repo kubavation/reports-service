@@ -1,6 +1,6 @@
-package com.durys.jakub.reportsservice.generator;
+package com.durys.jakub.reportsservice.common.generator;
 
-import com.durys.jakub.reportsservice.report.infrastructure.model.ReportCreationParam;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;

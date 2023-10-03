@@ -2,7 +2,7 @@ package com.durys.jakub.reportsservice.scheduling;
 
 import com.durys.jakub.reportsservice.event.EventPublisher;
 import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReport;
-import com.durys.jakub.reportsservice.scheduling.event.GenerateScheduledReportEvent;
+import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
 import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReportsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
