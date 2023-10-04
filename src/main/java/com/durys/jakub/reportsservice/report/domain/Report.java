@@ -2,7 +2,7 @@ package com.durys.jakub.reportsservice.report.domain;
 
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundle;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Data
 @Entity

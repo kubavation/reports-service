@@ -2,7 +2,6 @@ package com.durys.jakub.reportsservice.pattern.domain;
 
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @Table(name = "REP_REPORT_PATTERN_PARAM")
-public class ReportPatternParameter {
+class ReportPatternParameter {
 
     @Id
     @GeneratedValue
