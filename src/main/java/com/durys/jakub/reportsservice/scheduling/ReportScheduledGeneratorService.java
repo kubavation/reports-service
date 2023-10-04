@@ -34,12 +34,12 @@ public class ReportScheduledGeneratorService {
                 .map(param -> new ReportParameter(param.getName(), param.getValue()))
                 .collect(Collectors.toSet());
 
-        Report scheduleReport = reportRepository.save(
+        Report report = reportRepository.save(
                 Report.instanceOf(
                         pattern, format.name(), UUID.randomUUID(), title, description)
                         .withParameters(parameters));
 
-        scheduledReportsRepository.save(new ScheduledReport(scheduleReport.getId(), at));
+        scheduledReportsRepository.save(new ScheduledReport(report.getId(), at));
 
     }
 }
