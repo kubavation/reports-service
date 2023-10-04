@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import static com.durys.jakub.reportsservice.report.domain.ReportCreationStatus.Status.*;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -31,7 +33,7 @@ public class ScheduledReport {
     }
 
     public ScheduledReport markAsStarted() {
-        this.status = ReportCreationStatus.valueOf(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now());
+        this.status = ReportCreationStatus.valueOf(IN_PROGRESS, LocalDateTime.now());
         return this;
     }
 

@@ -38,7 +38,7 @@ class ScheduledReportsService {
               .collect(Collectors.toSet());
 
       log.info("Scheduled reports count {}", scheduled.size());
-      
+
       scheduledReportsRepository.saveAll(scheduled);
 
       scheduled.stream()
