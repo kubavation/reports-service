@@ -3,6 +3,7 @@ package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
+import com.durys.jakub.reportsservice.pattern.domain.command.UploadFilePatternCommand;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
@@ -52,7 +53,8 @@ public class ReportPatternController {
     @PatchMapping("/{patternId}/files")
     public void uploadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId,
                                   @RequestParam MultipartFile file) throws Exception {
-        reportPatternApplicationService.upload(patternId, file);
+        commandGateway.dispatch(
+                new UploadFilePatternCommand(patternId, file));
     }
 
     @Operation(description = "Upload pattern file")

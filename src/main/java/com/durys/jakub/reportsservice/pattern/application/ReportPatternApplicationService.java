@@ -49,18 +49,6 @@ public class ReportPatternApplicationService {
         patternRepository.save(entity);
     }
 
-    @Transactional
-    public void upload(Long patternId, MultipartFile file) throws IOException {
-
-        log.info("uploading file pattern (ID: {})", patternId);
-
-        ReportPattern entity = patternRepository.findById(patternId)
-                .map(pattern -> pattern.withPatternFile(file))
-                .map(patternRepository::save)
-                .orElseThrow(RuntimeException::new);
-
-        filePatternRepository.store(entity, file);
-    }
 
     public PatternFile download(Long patternId) throws IOException {
 
