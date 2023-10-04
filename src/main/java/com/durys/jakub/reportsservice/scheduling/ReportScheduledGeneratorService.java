@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.scheduling;
 
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
@@ -24,22 +25,19 @@ public class ReportScheduledGeneratorService {
 
     private final ReportRepository reportRepository;
     private final ScheduledReportsRepository scheduledReportsRepository;
-    private final ReportPatternApplicationService reportPatternService;
 
     @Transactional
-    public void schedule(String reportName, String subsystem, Set<ReportCreationParam> params, ReportFormat format,
+    public void schedule(ReportPattern pattern, Set<ReportCreationParam> params, ReportFormat format,
                          String title, String description, LocalDateTime at) {
-
-        ReportPatternInfo pattern = reportPatternService.reportPatternInfo(reportName, subsystem);
 
         var parameters = params.stream()
                 .map(param -> new ReportParameter(param.getName(), param.getValue()))
                 .collect(Collectors.toSet());
 
         Report scheduleReport = reportRepository.save(
-                Report.instanceOf(pattern, format.name(), UUID.randomUUID(), title, description)
-                        .withParameters(parameters)
-        );
+                Report.instanceOf(
+                        pattern, format.name(), UUID.randomUUID(), title, description)
+                        .withParameters(parameters));
 
         scheduledReportsRepository.save(new ScheduledReport(scheduleReport.getId(), at));
 

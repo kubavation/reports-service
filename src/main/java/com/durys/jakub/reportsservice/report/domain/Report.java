@@ -1,6 +1,7 @@
 package com.durys.jakub.reportsservice.report.domain;
 
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundle;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,10 +49,9 @@ public class Report {
     @ManyToMany(mappedBy = "reports")
     private Set<ReportBundle> bundles;
 
-    public static Report instanceOf(ReportPatternInfo patternInformations,
-                                    String format, UUID author, String title, String description) {
+    public static Report instanceOf(ReportPattern pattern, String format, UUID author, String title, String description) {
         return Report.builder()
-                .patternInformations(patternInformations)
+                .patternInformations(pattern.getInformations())
                 .format(format)
                 .tenantId(author)
                 .title(title)
