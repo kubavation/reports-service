@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.scheduling;
+package com.durys.jakub.reportsservice.scheduling.application;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;

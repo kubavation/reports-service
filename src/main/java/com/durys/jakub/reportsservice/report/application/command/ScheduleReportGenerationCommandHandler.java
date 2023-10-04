@@ -5,7 +5,7 @@ import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.report.domain.command.ScheduleReportGenerationCommand;
-import com.durys.jakub.reportsservice.scheduling.ReportScheduledGeneratorService;
+import com.durys.jakub.reportsservice.scheduling.application.ReportScheduledGeneratorService;
 import lombok.RequiredArgsConstructor;
 
 @CommandHandling
