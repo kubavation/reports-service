@@ -35,8 +35,7 @@ public class ReportScheduledGeneratorService {
                 .collect(Collectors.toSet());
 
         Report report = reportRepository.save(
-                Report.instanceOf(
-                        pattern, format.name(), UUID.randomUUID(), title, description)
+                Report.instanceOf(pattern, format, UUID.randomUUID(), title, description)
                         .withParameters(parameters));
 
         scheduledReportsRepository.save(new ScheduledReport(report.getId(), at));

@@ -37,7 +37,7 @@ public class ReportGenerator {
 
         JasperPrint generated = reportParametersService.fill(jasperReport, parameters, pattern.getInformations());
 
-        return new GeneratedReport(ReportPrintService.print(generated, format), pattern.name(), format.format());
+        return new GeneratedReport(ReportPrintService.print(generated, format), pattern.name(), format);
 
     }
 
