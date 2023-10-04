@@ -30,4 +30,9 @@ public class ScheduledReport {
         this.at = at;
     }
 
+    public ScheduledReport markAsStarted() {
+        this.status = ReportCreationStatus.valueOf(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now());
+        return this;
+    }
+
 }

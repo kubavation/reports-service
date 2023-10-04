@@ -17,12 +17,17 @@ public class ReportCreationStatus {
         WAITING,
         IN_PROGRESS,
         FAILURE,
-        SUCCESS
+        SUCCESS,
+        DECLINED
     }
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     private LocalDateTime at;
+
+    public static ReportCreationStatus valueOf(Status status, LocalDateTime at) {
+        return new ReportCreationStatus(status, at);
+    }
 
 }

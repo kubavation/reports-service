@@ -1,9 +1,7 @@
-package com.durys.jakub.reportsservice.scheduling;
+package com.durys.jakub.reportsservice.scheduling.domain;
 
 import com.durys.jakub.reportsservice.event.EventPublisher;
-import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReport;
 import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
-import com.durys.jakub.reportsservice.scheduling.domain.ScheduledReportsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -11,14 +9,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "reports.scheduling", name = "enabled", havingValue = "true")
-public class ScheduledReportsService {
+class ScheduledReportsService {
 
     private final ScheduledReportsRepository scheduledReportsRepository;
     private final EventPublisher eventPublisher;
@@ -27,11 +27,19 @@ public class ScheduledReportsService {
     @Async
     public void generateScheduledReports() {
 
-      log.info("Scheduling reports at {}", LocalDateTime.now());
+      final LocalDateTime now = LocalDateTime.now();
 
-      Set<ScheduledReport> scheduled = scheduledReportsRepository.findScheduled(LocalDateTime.now());
+      log.info("Scheduling reports at {}", now);
+
+      Set<ScheduledReport> scheduled = scheduledReportsRepository.findScheduled(java.sql.Date.valueOf(LocalDate.now()))
+              .stream()
+              .filter(scheduledReport -> !scheduledReport.getAt().isAfter(now))
+              .map(ScheduledReport::markAsStarted)
+              .collect(Collectors.toSet());
 
       log.info("Scheduled reports count {}", scheduled.size());
+      
+      scheduledReportsRepository.saveAll(scheduled);
 
       scheduled.stream()
               .forEach(scheduledReport -> eventPublisher.emit(
