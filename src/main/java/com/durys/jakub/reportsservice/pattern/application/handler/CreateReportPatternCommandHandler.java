@@ -2,17 +2,13 @@ package com.durys.jakub.reportsservice.pattern.application.handler;
 
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
-import com.durys.jakub.reportsservice.pattern.application.PatternConverter;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.filestorage.FilePatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Set;
 
 @Slf4j
 @CommandHandling
