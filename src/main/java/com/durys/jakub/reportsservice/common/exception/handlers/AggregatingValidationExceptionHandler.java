@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.common.exception;
+package com.durys.jakub.reportsservice.common.exception.handlers;
 
 import jakarta.validation.ValidationException;
 
