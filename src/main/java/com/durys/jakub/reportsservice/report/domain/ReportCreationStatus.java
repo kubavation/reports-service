@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class ReportCreationStatus {
 
     public enum Status {
+        WAITING,
         IN_PROGRESS,
         FAILURE,
         SUCCESS

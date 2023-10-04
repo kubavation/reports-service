@@ -35,9 +35,6 @@ public class Report {
     @Enumerated(EnumType.STRING)
     private ReportFormat format;
 
-    @Embedded
-    private ReportCreationStatus status;
-
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReportParameter> parameters;
 
@@ -58,7 +55,6 @@ public class Report {
                 .tenantId(author)
                 .title(title)
                 .description(description)
-                .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
     }
 
