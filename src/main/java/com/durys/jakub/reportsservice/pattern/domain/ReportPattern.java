@@ -47,4 +47,16 @@ public class ReportPattern {
         return this;
     }
 
+    public String name() {
+        return informations.getName();
+    }
+
+    public String subsystem() {
+        return informations.getSubsystem();
+    }
+
+    public String description() {
+        return informations.getDescription();
+    }
+
 }

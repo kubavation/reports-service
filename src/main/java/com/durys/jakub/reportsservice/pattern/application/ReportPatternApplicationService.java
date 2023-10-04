@@ -1,6 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application;
 
-import com.durys.jakub.reportsservice.pattern.domain.FilePatternRepository;
+import com.durys.jakub.reportsservice.pattern.filestorage.FilePatternRepository;
 import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;

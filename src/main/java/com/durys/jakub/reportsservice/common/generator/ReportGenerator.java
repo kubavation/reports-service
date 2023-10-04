@@ -1,9 +1,9 @@
 package com.durys.jakub.reportsservice.common.generator;
 
-import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreation;
-import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.report.domain.ReportFormat;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;
@@ -27,39 +27,19 @@ public class ReportGenerator {
     private final ReportParametersService reportParametersService;
 
     @SneakyThrows
-    public GeneratedReport generate(ReportCreation report) {
+    public GeneratedReport generate(ReportPattern pattern, ReportFormat format, Set<ReportCreationParam> parameters) {
 
-        log.info("generating report {} for subsystem {}", report.getReportName(), report.getSubsystem());
+        log.info("generating report {} for subsystem {}", pattern.name(), pattern.subsystem());
 
-        ReportPatternInfo patternInfo = reportPatternService.reportPatternInfo( report.getReportName(), report.getSubsystem());
-        Path filePath = reportPatternService.patternFilePath(report.getReportName(), report.getSubsystem());
-
-        JasperReport jasperReport = ReportCache.compiledReport(filePath)
-                .getOrElseGet(r -> compile(filePath));
-
-        JasperPrint generated = reportParametersService.fill(jasperReport, report.getParameters(), patternInfo);
-
-        return new GeneratedReport(
-                ReportPrintService.print(generated, report.getFormat()),
-                report.getReportName(), report.getFormat().format());
-
-    }
-
-    @SneakyThrows
-    public GeneratedReport generate(String reportName, String subsystem, Set<ReportCreationParam> parameters,
-                                    ReportFormat format) {
-
-        log.info("generating report {} for subsystem {}", reportName, subsystem);
-
-        ReportPatternInfo patternInfo = reportPatternService.reportPatternInfo(reportName, subsystem);
-        Path filePath = reportPatternService.patternFilePath(reportName, subsystem);
+        ReportPatternInfo patternInfo = reportPatternService.reportPatternInfo(pattern.name(), pattern.subsystem());
+        Path filePath = reportPatternService.patternFilePath(pattern.name(), pattern.subsystem());
 
         JasperReport jasperReport = ReportCache.compiledReport(filePath)
                 .getOrElseGet(r -> compile(filePath));
 
         JasperPrint generated = reportParametersService.fill(jasperReport, parameters, patternInfo);
 
-        return new GeneratedReport(ReportPrintService.print(generated, format), reportName, format.format());
+        return new GeneratedReport(ReportPrintService.print(generated, format), pattern.name(), format.format());
 
     }
 

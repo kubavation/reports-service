@@ -1,6 +1,5 @@
-package com.durys.jakub.reportsservice.pattern.infrastructure;
+package com.durys.jakub.reportsservice.pattern.filestorage;
 
-import com.durys.jakub.reportsservice.pattern.domain.FilePatternRepository;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;

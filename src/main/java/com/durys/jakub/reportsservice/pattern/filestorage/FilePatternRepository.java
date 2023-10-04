@@ -1,5 +1,6 @@
-package com.durys.jakub.reportsservice.pattern.domain;
+package com.durys.jakub.reportsservice.pattern.filestorage;
 
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
