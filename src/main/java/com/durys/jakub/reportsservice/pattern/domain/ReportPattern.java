@@ -85,4 +85,7 @@ public class ReportPattern {
         return this;
     }
 
+    public void addParameter(String name, String type) {
+        parameters.add(new ReportPatternParameter(name, type));
+    }
 }
