@@ -1,7 +1,9 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
+import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
-import com.durys.jakub.reportsservice.pattern.domain.PatternFile;
+import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
+import com.durys.jakub.reportsservice.pattern.domain.command.UploadFilePatternCommand;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
@@ -29,6 +31,7 @@ public class ReportPatternController {
 
     private final ReportPatternRepository reportPatternRepository;
     private final ReportPatternApplicationService reportPatternApplicationService;
+    private final CommandGateway commandGateway;
 
     @Operation(description = "List of patterns based on subsystem")
     @ApiResponse(responseCode = "200", description = "List of patterns")
@@ -50,7 +53,8 @@ public class ReportPatternController {
     @PatchMapping("/{patternId}/files")
     public void uploadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId,
                                   @RequestParam MultipartFile file) throws Exception {
-        reportPatternApplicationService.upload(patternId, file);
+        commandGateway.dispatch(
+                new UploadFilePatternCommand(patternId, file));
     }
 
     @Operation(description = "Upload pattern file")
@@ -76,7 +80,12 @@ public class ReportPatternController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public void createPattern(@Parameter(description = "Pattern definition") @RequestPart ReportPatternDTO pattern,
                               @Parameter(description = "Pattern file") @RequestPart MultipartFile file) throws Exception {
-        reportPatternApplicationService.create(pattern, file);
+
+        commandGateway.dispatch(
+                new CreateReportPatternCommand(
+                        pattern.getName(), pattern.getDescription(), pattern.getSubsystem(),
+                        pattern.getGenerationType(), pattern.getParameters(), file
+                ));
     }
 
     @PutMapping(path = "/{patternId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

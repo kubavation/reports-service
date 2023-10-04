@@ -5,7 +5,7 @@ import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternParameter;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

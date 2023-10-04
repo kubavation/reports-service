@@ -4,14 +4,13 @@ import com.durys.jakub.notificationclient.api.client.NotificationClient;
 import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
-import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreation;
-import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.report.domain.ReportFormat;
+import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
-import com.durys.jakub.reportsservice.common.generator.ReportGenerator;
-import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
+import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +26,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GenerateScheduledReportEventHandler {
 
-    private final ReportGenerator reportGenerator;
     private final ReportRepository reportRepository;
+    private final CommandGateway commandGateway;
     private final NotificationClient notificationClient;
 
     @EventListener
@@ -39,7 +38,6 @@ public class GenerateScheduledReportEventHandler {
 
         Report report = reportRepository.find(event.reportId())
                 .orElseThrow(RuntimeException::new);
-
 
         generate(report)
                 .peek(rep -> notificationClient.send(
@@ -59,16 +57,14 @@ public class GenerateScheduledReportEventHandler {
                     .map(param -> new ReportCreationParam(param.getName(), param.getValue()))
                     .collect(Collectors.toSet());
 
-            var createReport = ReportCreation.builder()
-                    .subsystem(report.getPatternInformations().getSubsystem())
-                    .reportName(report.getPatternInformations().getName())
-                    .parameters(parameters)
-                    .format(ReportFormat.valueOf(report.getFormat()))
-                    .title(report.getTitle())
-                    .description(report.getDescription())
-                    .build();
-
-            GeneratedReport generated = reportGenerator.generate(createReport);
+            GeneratedReport generated = commandGateway.dispatch(
+                    new GenerateReportCommand(
+                            report.getPatternInformations().getName(),
+                            report.getPatternInformations().getSubsystem(),
+                            report.getFormat(),
+                            parameters,
+                            report.getTitle(),
+                            report.getDescription()));
 
             return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
         } catch (Exception e) {

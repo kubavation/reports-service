@@ -1,8 +1,6 @@
 package com.durys.jakub.reportsservice.cqrs.configuration;
 
 
-import com.durys.jakub.reportsservice.cqrs.command.Command;
-import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.query.Query;
 import com.durys.jakub.reportsservice.cqrs.query.QueryHandler;
 import com.durys.jakub.reportsservice.cqrs.query.QueryHandlerProvider;

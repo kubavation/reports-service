@@ -1,6 +1,5 @@
-package com.durys.jakub.reportsservice.sharedkernel.model;
+package com.durys.jakub.reportsservice.pattern.domain;
 
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternGenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Data
 @NoArgsConstructor
-public class ReportPatternInfo {
+class ReportPatternInfo {
 
     @Column(name = "PATTERN_NAME")
     private String name;

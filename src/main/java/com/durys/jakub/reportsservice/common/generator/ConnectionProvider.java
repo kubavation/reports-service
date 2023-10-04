@@ -1,6 +1,6 @@
 package com.durys.jakub.reportsservice.common.generator;
 
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;

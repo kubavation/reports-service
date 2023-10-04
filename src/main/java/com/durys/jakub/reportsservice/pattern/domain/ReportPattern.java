@@ -1,13 +1,15 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +19,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @Table(name = "REP_REPORT_PATTERN")
+@Slf4j
 public class ReportPattern {
 
     @Id
@@ -38,6 +41,13 @@ public class ReportPattern {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public ReportPattern(String name, String description, String subsystem, MultipartFile file) {
+        this.informations = new ReportPatternInfo(name, description, subsystem);
+        this.parameters = Set.of();
+        this.status = Status.ACTIVE;
+        withPatternFile(file);
+    }
+
     public void markAsDeleted() {
         this.status = Status.DELETED;
     }
@@ -47,4 +57,35 @@ public class ReportPattern {
         return this;
     }
 
+    public ReportPattern withPatternFile(MultipartFile file) {
+        try {
+            this.patternFile = new PatternFile(file.getBytes(), file.getOriginalFilename());
+        } catch (IOException e) {
+            log.error("error saving file {}", e);
+        }
+        return this;
+    }
+
+    public String name() {
+        return informations.getName();
+    }
+
+    public String subsystem() {
+        return informations.getSubsystem();
+    }
+
+    public String description() {
+        return informations.getDescription();
+    }
+
+
+    public ReportPattern withInformations(String name, String subsystem, String description) {
+        //todo validation
+        this.informations = new ReportPatternInfo(name, description, subsystem);
+        return this;
+    }
+
+    public void addParameter(String name, String type) {
+        parameters.add(new ReportPatternParameter(name, type));
+    }
 }

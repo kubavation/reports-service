@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatternFile {
+class PatternFile {
     private byte[] file;
     private String fileName;
 }

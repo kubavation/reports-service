@@ -1,7 +1,8 @@
 package com.durys.jakub.reportsservice.report.domain;
 
 import com.durys.jakub.reportsservice.bundles.domain.ReportBundle;
-import com.durys.jakub.reportsservice.sharedkernel.model.ReportPatternInfo;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -30,10 +29,9 @@ public class Report {
 
     @Embedded
     private ReportPatternInfo patternInformations;
-    private String format;
 
-    @Embedded
-    private ReportCreationStatus status;
+    @Enumerated(EnumType.STRING)
+    private ReportFormat format;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ReportParameter> parameters;
@@ -48,15 +46,13 @@ public class Report {
     @ManyToMany(mappedBy = "reports")
     private Set<ReportBundle> bundles;
 
-    public static Report instanceOf(ReportPatternInfo patternInformations,
-                                    String format, UUID author, String title, String description) {
+    public static Report instanceOf(ReportPattern pattern, ReportFormat format, UUID author, String title, String description) {
         return Report.builder()
-                .patternInformations(patternInformations)
+                .patternInformations(pattern.getInformations())
                 .format(format)
                 .tenantId(author)
                 .title(title)
                 .description(description)
-                .status(new ReportCreationStatus(ReportCreationStatus.Status.IN_PROGRESS, LocalDateTime.now()))
                 .build();
     }
 
