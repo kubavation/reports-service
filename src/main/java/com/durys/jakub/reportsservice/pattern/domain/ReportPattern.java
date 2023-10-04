@@ -41,6 +41,13 @@ public class ReportPattern {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public ReportPattern(String name, String description, String subsystem, MultipartFile file) {
+        this.informations = new ReportPatternInfo(name, description, subsystem);
+        this.parameters = Set.of();
+        this.status = Status.ACTIVE;
+        withPatternFile(file);
+    }
+
     public void markAsDeleted() {
         this.status = Status.DELETED;
     }
@@ -50,7 +57,7 @@ public class ReportPattern {
         return this;
     }
 
-    public ReportPattern patternFile(MultipartFile file) {
+    public ReportPattern withPatternFile(MultipartFile file) {
         try {
             this.patternFile = new PatternFile(file.getBytes(), file.getOriginalFilename());
         } catch (IOException e) {
@@ -69,6 +76,13 @@ public class ReportPattern {
 
     public String description() {
         return informations.getDescription();
+    }
+
+
+    public ReportPattern withInformations(String name, String subsystem, String description) {
+        //todo validation
+        this.informations = new ReportPatternInfo(name, description, subsystem);
+        return this;
     }
 
 }
