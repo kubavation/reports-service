@@ -31,7 +31,9 @@ public class Report {
 
     @Embedded
     private ReportPatternInfo patternInformations;
-    private String format;
+
+    @Enumerated(EnumType.STRING)
+    private ReportFormat format;
 
     @Embedded
     private ReportCreationStatus status;
@@ -49,7 +51,7 @@ public class Report {
     @ManyToMany(mappedBy = "reports")
     private Set<ReportBundle> bundles;
 
-    public static Report instanceOf(ReportPattern pattern, String format, UUID author, String title, String description) {
+    public static Report instanceOf(ReportPattern pattern, ReportFormat format, UUID author, String title, String description) {
         return Report.builder()
                 .patternInformations(pattern.getInformations())
                 .format(format)
