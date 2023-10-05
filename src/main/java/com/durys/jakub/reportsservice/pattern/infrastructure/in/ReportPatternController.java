@@ -5,11 +5,13 @@ import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.pattern.domain.command.ArchiveReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
+import com.durys.jakub.reportsservice.pattern.domain.command.DownloadReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.UploadFilePatternCommand;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -64,17 +66,18 @@ public class ReportPatternController {
     @GetMapping("/{patternId}/files")
     public ResponseEntity<Resource> downloadFilePattern(@Parameter(description ="Pattern ID") @PathVariable Long patternId) throws Exception {
 
-        PatternFile patternFile = reportPatternApplicationService.download(patternId);
+        GeneratedFile generated = commandGateway.dispatch(
+                new DownloadReportPatternCommand(patternId));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, patternFile.getFileName());
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, generated.fileName());
         headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .contentLength(patternFile.getFile().length)
+                .contentLength(generated.file().length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new ByteArrayResource(patternFile.getFile()));
+                .body(new ByteArrayResource(generated.file()));
     }
 
     @Operation(description = "Create report pattern")

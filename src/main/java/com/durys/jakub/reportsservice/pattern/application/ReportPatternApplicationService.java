@@ -38,16 +38,4 @@ public class ReportPatternApplicationService {
         patternRepository.save(reportPattern);
     }
 
-
-    public PatternFile download(Long patternId) throws IOException {
-
-        log.info("downloading file pattern (ID: {})", patternId);
-
-        ReportPattern entity = patternRepository.findById(patternId)
-                .orElseThrow(RuntimeException::new);
-
-        return entity
-                .withFile(Files.readAllBytes(filePatternRepository.path(entity)))
-                .getPatternFile();
-    }
 }
