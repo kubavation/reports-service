@@ -10,7 +10,7 @@ import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
-import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +57,7 @@ public class GenerateScheduledReportEventHandler {
                     .map(param -> new ReportCreationParam(param.getName(), param.getValue()))
                     .collect(Collectors.toSet());
 
-            GeneratedReport generated = commandGateway.dispatch(
+            GeneratedFile generated = commandGateway.dispatch(
                     new GenerateReportCommand(
                             report.getPatternInformations().getName(),
                             report.getPatternInformations().getSubsystem(),

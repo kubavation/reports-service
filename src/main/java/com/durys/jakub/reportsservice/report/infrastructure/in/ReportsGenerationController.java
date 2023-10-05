@@ -6,7 +6,7 @@ import com.durys.jakub.reportsservice.report.domain.command.GenerateReportComman
 import com.durys.jakub.reportsservice.report.domain.command.ScheduleReportGenerationCommand;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreation;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ScheduleReportCreation;
-import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +35,7 @@ public class ReportsGenerationController {
     public ResponseEntity<Resource> generate(@Parameter(description = "Report type with params")
                                              @RequestBody ReportCreation report) {
 
-        GeneratedReport generated = commandGateway.dispatch(
+        GeneratedFile generated = commandGateway.dispatch(
                 new GenerateReportCommand(
                                 report.getReportName(),
                                 report.getSubsystem(),
@@ -71,7 +71,7 @@ public class ReportsGenerationController {
     @GetMapping("/{reportId}")
     public ResponseEntity<Resource> download(@Parameter(description = "Identity of report") @PathVariable Long reportId) {
 
-        GeneratedReport generated = commandGateway.dispatch(new DownloadReportCommand(reportId));
+        GeneratedFile generated = commandGateway.dispatch(new DownloadReportCommand(reportId));
 
         return ResponseEntity.ok()
                 .headers(ReportHeadersFactory.generate(generated))
@@ -84,7 +84,7 @@ public class ReportsGenerationController {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     static class ReportHeadersFactory {
 
-        static HttpHeaders generate(GeneratedReport report) {
+        static HttpHeaders generate(GeneratedFile report) {
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "%s.%s".formatted(report.fileName(),report.format()));
             headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);

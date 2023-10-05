@@ -5,5 +5,5 @@ import com.durys.jakub.reportsservice.cqrs.query.Query;
 
 import java.util.Set;
 
-public record FindReportBundles() implements Query<Set<ReportBundleDTO>> {
+public record FindReportBundlesQuery() implements Query<Set<ReportBundleDTO>> {
 }

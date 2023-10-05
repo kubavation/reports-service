@@ -1,6 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
-import com.durys.jakub.reportsservice.sharedkernel.model.Status;
+import com.durys.jakub.reportsservice.common.model.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,15 +41,16 @@ public class ReportPattern {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public ReportPattern(String name, String description, String subsystem, MultipartFile file) {
-        this.informations = new ReportPatternInfo(name, description, subsystem);
+    public ReportPattern(ReportPatternInfo patternInfo, MultipartFile file) {
+        this.informations = patternInfo;
         this.parameters = Set.of();
         this.status = Status.ACTIVE;
         withPatternFile(file);
     }
 
-    public void markAsDeleted() {
+    public ReportPattern markAsDeleted() {
         this.status = Status.DELETED;
+        return this;
     }
 
     public ReportPattern withFile(byte[] content) {
@@ -78,14 +79,11 @@ public class ReportPattern {
         return informations.getDescription();
     }
 
-
-    public ReportPattern withInformations(String name, String subsystem, String description) {
-        //todo validation
-        this.informations = new ReportPatternInfo(name, description, subsystem);
-        return this;
-    }
-
     public void addParameter(String name, String type) {
         parameters.add(new ReportPatternParameter(name, type));
     }
+
+
+
+
 }

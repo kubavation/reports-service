@@ -1,11 +1,14 @@
 package com.durys.jakub.reportsservice.pattern.application.handler;
 
+import com.durys.jakub.reportsservice.common.exception.ValidationHandlers;
+import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.filestorage.FilePatternRepository;
-import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,20 +16,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CommandHandling
 @RequiredArgsConstructor
-public class CreateReportPatternCommandHandler implements CommandHandler<CreateReportPatternCommand, Void> {
+public class CreateReportPatternCommandHandler implements CommandHandler<CreateReportPatternCommand, OperationResult> {
 
     private final ReportPatternRepository reportPatternRepository;
     private final FilePatternRepository filePatternRepository;
 
     @Override
     @Transactional
-    public Void handle(CreateReportPatternCommand command) {
+    public OperationResult handle(CreateReportPatternCommand command) {
 
         log.info("creating report pattern");
 
-        ReportPattern reportPattern =
-                reportPatternRepository.save(
-                        new ReportPattern(command.name(), command.description(), command.subsystem(), command.file()));
+        var handler = ValidationHandlers.aggregatingValidationExceptionHandler();
+
+        ReportPatternInfo.test(command.name(), command.description(), command.subsystem(), handler);
+
+        if (handler.hasErrors()) {
+            return OperationResult.failure(handler.errorMessages());
+        }
+
+        ReportPattern reportPattern = reportPatternRepository
+                .save(new ReportPattern(
+                        new ReportPatternInfo(command.name(), command.description(), command.subsystem()), command.file()));
 
         command.parameters()
                 .forEach(parameter -> reportPattern.addParameter(parameter.getName(), parameter.getType()));
@@ -35,6 +46,6 @@ public class CreateReportPatternCommandHandler implements CommandHandler<CreateR
 
         filePatternRepository.store(saved, command.file());
 
-        return null;
+        return OperationResult.success();
     }
 }

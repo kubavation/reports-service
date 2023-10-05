@@ -4,7 +4,7 @@ import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.filestorage.FilePatternRepository;
 import com.durys.jakub.reportsservice.report.domain.ReportFormat;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
-import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class ReportGenerator {
     private final FilePatternRepository filePatternRepository;
 
     @SneakyThrows
-    public GeneratedReport generate(ReportPattern pattern, ReportFormat format, Set<ReportCreationParam> parameters) {
+    public GeneratedFile generate(ReportPattern pattern, ReportFormat format, Set<ReportCreationParam> parameters) {
 
         log.info("generating report {} for subsystem {}", pattern.name(), pattern.subsystem());
 
@@ -37,7 +37,7 @@ public class ReportGenerator {
 
         JasperPrint generated = reportParametersService.fill(jasperReport, parameters, pattern.getInformations());
 
-        return new GeneratedReport(ReportPrintService.print(generated, format), pattern.name(), format);
+        return new GeneratedFile(ReportPrintService.print(generated, format), pattern.name(), format);
 
     }
 
