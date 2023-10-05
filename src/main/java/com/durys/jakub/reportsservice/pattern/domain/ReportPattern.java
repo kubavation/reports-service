@@ -3,7 +3,7 @@ package com.durys.jakub.reportsservice.pattern.domain;
 import com.durys.jakub.reportsservice.common.exception.handlers.ThrowingValidationExceptionHandler;
 import com.durys.jakub.reportsservice.common.exception.handlers.ValidationExceptionHandler;
 import com.durys.jakub.reportsservice.pattern.domain.validators.ReportBasicInformationsValidator;
-import com.durys.jakub.reportsservice.sharedkernel.model.Status;
+import com.durys.jakub.reportsservice.common.model.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

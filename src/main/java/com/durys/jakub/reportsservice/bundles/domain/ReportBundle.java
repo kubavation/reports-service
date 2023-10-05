@@ -1,7 +1,7 @@
 package com.durys.jakub.reportsservice.bundles.domain;
 
 import com.durys.jakub.reportsservice.report.domain.Report;
-import com.durys.jakub.reportsservice.sharedkernel.model.Status;
+import com.durys.jakub.reportsservice.common.model.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
