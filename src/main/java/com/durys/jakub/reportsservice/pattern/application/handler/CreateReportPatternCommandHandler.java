@@ -32,16 +32,15 @@ public class CreateReportPatternCommandHandler implements CommandHandler<CreateR
 
         var handler = ValidationHandlers.aggregatingValidationExceptionHandler();
 
-        ReportPatternInfo reportPatternInfo = new ReportPatternInfo(command.name(), command.description(), command.subsystem());
-
-        ReportPatternInfo.test(reportPatternInfo, handler);
+        ReportPatternInfo.test(command.name(), command.description(), command.subsystem(), handler);
 
         if (handler.hasErrors()) {
             return new OperationResult(handler.errorMessages());
         }
 
         ReportPattern reportPattern = reportPatternRepository
-                .save(new ReportPattern(reportPatternInfo, command.file()));
+                .save(new ReportPattern(
+                        new ReportPatternInfo(command.name(), command.description(), command.subsystem()), command.file()));
 
         command.parameters()
                 .forEach(parameter -> reportPattern.addParameter(parameter.getName(), parameter.getType()));

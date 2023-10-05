@@ -35,7 +35,7 @@ public class ReportPatternInfo {
         this.description = description;
         this.subsystem = subsystem;
         this.generationType = generationType;
-        test(this, ValidationHandlers.throwingValidationExceptionHandler());
+        test(name, description, subsystem, ValidationHandlers.throwingValidationExceptionHandler());
     }
 
     public boolean dbGeneration() {
@@ -43,8 +43,8 @@ public class ReportPatternInfo {
     }
 
 
-    public static void test(ReportPatternInfo info, ValidationExceptionHandler handler) {
-        new ReportBasicInformationsValidator().validate(info, handler);
+    public static void test(String name, String description, String subsystem, ValidationExceptionHandler handler) {
+        new ReportBasicInformationsValidator().validate(name, description, subsystem, handler);
     }
 
 }
