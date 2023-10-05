@@ -6,7 +6,7 @@ import com.durys.jakub.reportsservice.pattern.domain.command.ArchiveReportPatter
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.DownloadReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.UploadFilePatternCommand;
-import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;

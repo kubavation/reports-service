@@ -4,7 +4,7 @@ import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.common.generator.ReportGenerator;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
-import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
 import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import lombok.RequiredArgsConstructor;

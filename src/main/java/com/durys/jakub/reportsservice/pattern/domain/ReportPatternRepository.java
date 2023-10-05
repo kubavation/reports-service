@@ -1,4 +1,4 @@
-package com.durys.jakub.reportsservice.pattern.infrastructure;
+package com.durys.jakub.reportsservice.pattern.domain;
 
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
