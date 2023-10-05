@@ -25,7 +25,7 @@ public class ReportPatternApplicationService {
     private final FilePatternRepository filePatternRepository;
 
     @Transactional
-    public void edit(Long patternId, ReportPatternDTO pattern, MultipartFile file) throws IOException {
+    public void edit(Long                                                                                                                                                                             , ReportPatternDTO pattern, MultipartFile file) throws IOException {
 
         log.info("edit pattern (ID: {})", patternId);
 
@@ -36,17 +36,6 @@ public class ReportPatternApplicationService {
         reportPattern.setId(entity.getId());
 
         patternRepository.save(reportPattern);
-    }
-
-    public void delete(Long patternId) {
-
-        log.info("delete pattern (ID: {})", patternId);
-
-        ReportPattern entity = patternRepository.findById(patternId)
-                .orElseThrow(RuntimeException::new);
-
-        entity.markAsDeleted();
-        patternRepository.save(entity);
     }
 
 

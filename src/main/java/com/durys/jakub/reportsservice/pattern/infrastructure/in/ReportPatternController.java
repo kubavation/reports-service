@@ -3,6 +3,7 @@ package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
+import com.durys.jakub.reportsservice.pattern.domain.command.ArchiveReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.UploadFilePatternCommand;
 import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternRepository;
@@ -97,6 +98,7 @@ public class ReportPatternController {
 
     @DeleteMapping("/{patternId}")
     public void deletePattern(@Parameter(description = "Pattern ID")  @PathVariable Long patternId) {
-        reportPatternApplicationService.delete(patternId);
+        commandGateway.dispatch(
+                new ArchiveReportPatternCommand(patternId));
     }
 }

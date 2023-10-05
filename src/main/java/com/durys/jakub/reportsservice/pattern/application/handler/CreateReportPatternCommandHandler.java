@@ -35,7 +35,7 @@ public class CreateReportPatternCommandHandler implements CommandHandler<CreateR
         ReportPatternInfo.test(command.name(), command.description(), command.subsystem(), handler);
 
         if (handler.hasErrors()) {
-            return new OperationResult(handler.errorMessages());
+            return OperationResult.failure(handler.errorMessages());
         }
 
         ReportPattern reportPattern = reportPatternRepository
@@ -49,6 +49,6 @@ public class CreateReportPatternCommandHandler implements CommandHandler<CreateR
 
         filePatternRepository.store(saved, command.file());
 
-        return new OperationResult(Collections.emptyList());
+        return OperationResult.success();
     }
 }

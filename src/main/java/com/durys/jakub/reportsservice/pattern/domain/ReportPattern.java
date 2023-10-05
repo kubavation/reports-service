@@ -48,8 +48,9 @@ public class ReportPattern {
         withPatternFile(file);
     }
 
-    public void markAsDeleted() {
+    public ReportPattern markAsDeleted() {
         this.status = Status.DELETED;
+        return this;
     }
 
     public ReportPattern withFile(byte[] content) {
