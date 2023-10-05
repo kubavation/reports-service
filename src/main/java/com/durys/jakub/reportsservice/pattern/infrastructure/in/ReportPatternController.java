@@ -2,6 +2,7 @@ package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
 import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
+import com.durys.jakub.reportsservice.cqrs.query.Queries;
 import com.durys.jakub.reportsservice.pattern.domain.command.ArchiveReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.DownloadReportPatternCommand;
@@ -10,6 +11,7 @@ import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
+import com.durys.jakub.reportsservice.pattern.infrastructure.query.FindSubsystemReportPatternsQuery;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,13 +36,14 @@ public class ReportPatternController {
 
     private final ReportPatternRepository reportPatternRepository;
     private final CommandGateway commandGateway;
+    private final Queries queries;
 
     @Operation(description = "List of patterns based on subsystem")
     @ApiResponse(responseCode = "200", description = "List of patterns")
     @GetMapping("/subsystem/{subsystem}")
     public Set<ReportPatternInfoDTO> patterns(@Parameter(description ="Subsystem") @PathVariable String subsystem) {
-        log.info("Finding patterns for subsystem {}", subsystem);
-        return reportPatternRepository.subsystemPatterns(subsystem);
+        return queries.find(
+                new FindSubsystemReportPatternsQuery(subsystem));
     }
 
     @Operation(description = "List of pattern parameters")
