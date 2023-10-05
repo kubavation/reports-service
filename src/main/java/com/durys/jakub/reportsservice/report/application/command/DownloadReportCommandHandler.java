@@ -4,19 +4,19 @@ import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.report.domain.command.DownloadReportCommand;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
-import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedReport;
+import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import lombok.RequiredArgsConstructor;
 
 @CommandHandling
 @RequiredArgsConstructor
-public class DownloadReportCommandHandler implements CommandHandler<DownloadReportCommand, GeneratedReport> {
+public class DownloadReportCommandHandler implements CommandHandler<DownloadReportCommand, GeneratedFile> {
 
     private final ReportRepository reportRepository;
 
     @Override
-    public GeneratedReport handle(DownloadReportCommand command) {
+    public GeneratedFile handle(DownloadReportCommand command) {
         return reportRepository.findById(command.reportId())
-                .map(report -> new GeneratedReport(report.getFile(), report.getFileName(), report.getFormat()))
+                .map(report -> new GeneratedFile(report.getFile(), report.getFileName(), report.getFormat()))
                 .orElseThrow(RuntimeException::new);
     }
 }
