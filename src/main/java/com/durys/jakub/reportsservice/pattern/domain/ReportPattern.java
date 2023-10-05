@@ -1,5 +1,8 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
+import com.durys.jakub.reportsservice.common.exception.handlers.ThrowingValidationExceptionHandler;
+import com.durys.jakub.reportsservice.common.exception.handlers.ValidationExceptionHandler;
+import com.durys.jakub.reportsservice.pattern.domain.validators.ReportBasicInformationsValidator;
 import com.durys.jakub.reportsservice.sharedkernel.model.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,6 +46,7 @@ public class ReportPattern {
 
     public ReportPattern(String name, String description, String subsystem, MultipartFile file) {
         this.informations = new ReportPatternInfo(name, description, subsystem);
+        testInformations(this, new ThrowingValidationExceptionHandler());
         this.parameters = Set.of();
         this.status = Status.ACTIVE;
         withPatternFile(file);
@@ -78,14 +82,16 @@ public class ReportPattern {
         return informations.getDescription();
     }
 
-
-    public ReportPattern withInformations(String name, String subsystem, String description) {
-        //todo validation
-        this.informations = new ReportPatternInfo(name, description, subsystem);
-        return this;
-    }
-
     public void addParameter(String name, String type) {
         parameters.add(new ReportPatternParameter(name, type));
     }
+
+
+    public static void testInformations(ReportPattern pattern, ValidationExceptionHandler handler) {
+        new ReportBasicInformationsValidator().validate(pattern, handler);
+    }
+
+
+
+
 }
