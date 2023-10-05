@@ -1,16 +1,19 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
+import com.durys.jakub.reportsservice.common.exception.handlers.ThrowingValidationExceptionHandler;
+import com.durys.jakub.reportsservice.common.exception.handlers.ValidationExceptionHandler;
+import com.durys.jakub.reportsservice.pattern.domain.validators.ReportBasicInformationsValidator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@Data
+@Getter
 @NoArgsConstructor
-class ReportPatternInfo {
+public class ReportPatternInfo {
 
     @Column(name = "PATTERN_NAME")
     private String name;
@@ -24,10 +27,7 @@ class ReportPatternInfo {
     private ReportPatternGenerationType generationType;
 
     public ReportPatternInfo(String name, String description, String subsystem) {
-        this.name = name;
-        this.description = description;
-        this.subsystem = subsystem;
-        this.generationType = ReportPatternGenerationType.NONE;
+        this(name, description, subsystem, ReportPatternGenerationType.NONE);
     }
 
     public ReportPatternInfo(String name, String description, String subsystem, ReportPatternGenerationType generationType) {
@@ -35,9 +35,16 @@ class ReportPatternInfo {
         this.description = description;
         this.subsystem = subsystem;
         this.generationType = generationType;
+        test(this, new ThrowingValidationExceptionHandler());
     }
 
     public boolean dbGeneration() {
         return ReportPatternGenerationType.DB.equals(generationType);
     }
+
+
+    public static void test(ReportPatternInfo info, ValidationExceptionHandler handler) {
+        new ReportBasicInformationsValidator().validate(info, handler);
+    }
+
 }

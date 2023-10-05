@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
+import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
@@ -78,14 +79,13 @@ public class ReportPatternController {
     @Operation(description = "Create report pattern")
     @ApiResponse(responseCode = "200", description = "Report pattern successfully created")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void createPattern(@Parameter(description = "Pattern definition") @RequestPart ReportPatternDTO pattern,
+    public OperationResult createPattern(@Parameter(description = "Pattern definition") @RequestPart ReportPatternDTO pattern,
                               @Parameter(description = "Pattern file") @RequestPart MultipartFile file) throws Exception {
 
-        commandGateway.dispatch(
+        return commandGateway.dispatch(
                 new CreateReportPatternCommand(
                         pattern.getName(), pattern.getDescription(), pattern.getSubsystem(),
-                        pattern.getGenerationType(), pattern.getParameters(), file
-                ));
+                        pattern.getGenerationType(), pattern.getParameters(), file));
     }
 
     @PutMapping(path = "/{patternId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
