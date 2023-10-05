@@ -1,7 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application.handler;
 
 import com.durys.jakub.reportsservice.common.exception.ValidationHandlers;
-import com.durys.jakub.reportsservice.common.exception.handlers.AggregatingValidationExceptionHandler;
 import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
@@ -13,8 +12,6 @@ import com.durys.jakub.reportsservice.pattern.infrastructure.ReportPatternReposi
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Collections;
 
 @Slf4j
 @CommandHandling

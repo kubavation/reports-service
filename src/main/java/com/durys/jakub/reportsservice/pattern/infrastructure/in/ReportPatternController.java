@@ -2,7 +2,6 @@ package com.durys.jakub.reportsservice.pattern.infrastructure.in;
 
 import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
-import com.durys.jakub.reportsservice.pattern.application.ReportPatternApplicationService;
 import com.durys.jakub.reportsservice.pattern.domain.command.ArchiveReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.DownloadReportPatternCommand;
@@ -34,7 +33,6 @@ import java.util.Set;
 public class ReportPatternController {
 
     private final ReportPatternRepository reportPatternRepository;
-    private final ReportPatternApplicationService reportPatternApplicationService;
     private final CommandGateway commandGateway;
 
     @Operation(description = "List of patterns based on subsystem")
@@ -92,12 +90,12 @@ public class ReportPatternController {
                         pattern.getGenerationType(), pattern.getParameters(), file));
     }
 
-    @PutMapping(path = "/{patternId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void editPattern(@Parameter(description = "Pattern ID")  @PathVariable Long patternId,
-                            @Parameter(description = "Pattern definition") @RequestPart ReportPatternDTO pattern,
-                            @Parameter(description = "Pattern file") @RequestPart MultipartFile file) throws Exception {
-        reportPatternApplicationService.edit(patternId, pattern, file);
-    }
+//    @PutMapping(path = "/{patternId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public void editPattern(@Parameter(description = "Pattern ID")  @PathVariable Long patternId,
+//                            @Parameter(description = "Pattern definition") @RequestPart ReportPatternDTO pattern,
+//                            @Parameter(description = "Pattern file") @RequestPart MultipartFile file) throws Exception {
+//        reportPatternApplicationService.edit(patternId, pattern, file);
+//    }
 
     @DeleteMapping("/{patternId}")
     public void deletePattern(@Parameter(description = "Pattern ID")  @PathVariable Long patternId) {
