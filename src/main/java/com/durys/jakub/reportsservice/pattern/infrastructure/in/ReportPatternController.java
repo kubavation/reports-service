@@ -7,10 +7,10 @@ import com.durys.jakub.reportsservice.pattern.domain.command.ArchiveReportPatter
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.DownloadReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.domain.command.UploadFilePatternCommand;
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.PatternParameterDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternDTO;
 import com.durys.jakub.reportsservice.pattern.infrastructure.in.model.ReportPatternInfoDTO;
+import com.durys.jakub.reportsservice.pattern.infrastructure.query.FindReportPatternParametersQuery;
 import com.durys.jakub.reportsservice.pattern.infrastructure.query.FindSubsystemReportPatternsQuery;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +34,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ReportPatternController {
 
-    private final ReportPatternRepository reportPatternRepository;
     private final CommandGateway commandGateway;
     private final Queries queries;
 
@@ -50,7 +49,8 @@ public class ReportPatternController {
     @ApiResponse(responseCode = "200", description = "List of parameters")
     @GetMapping("/{patternId}/parameters")
     public Set<PatternParameterDTO> patternParameters(@Parameter(description ="Pattern ID") @PathVariable Long patternId) {
-        return reportPatternRepository.patternParams(patternId);
+        return queries.find(
+                new FindReportPatternParametersQuery(patternId));
     }
 
     @Operation(description = "Upload pattern file")
