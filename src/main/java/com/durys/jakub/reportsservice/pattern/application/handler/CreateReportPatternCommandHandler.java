@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application.handler;
 
+import com.durys.jakub.reportsservice.common.exception.ValidationHandlers;
 import com.durys.jakub.reportsservice.common.exception.handlers.AggregatingValidationExceptionHandler;
 import com.durys.jakub.reportsservice.common.model.OperationResult;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
@@ -29,7 +30,7 @@ public class CreateReportPatternCommandHandler implements CommandHandler<CreateR
 
         log.info("creating report pattern");
 
-        var handler = new AggregatingValidationExceptionHandler();
+        var handler = ValidationHandlers.aggregatingValidationExceptionHandler();
 
         ReportPatternInfo reportPatternInfo = new ReportPatternInfo(command.name(), command.description(), command.subsystem());
 

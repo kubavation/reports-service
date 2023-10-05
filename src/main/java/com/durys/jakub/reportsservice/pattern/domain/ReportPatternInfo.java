@@ -1,6 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.domain;
 
-import com.durys.jakub.reportsservice.common.exception.handlers.ThrowingValidationExceptionHandler;
+import com.durys.jakub.reportsservice.common.exception.ValidationHandlers;
 import com.durys.jakub.reportsservice.common.exception.handlers.ValidationExceptionHandler;
 import com.durys.jakub.reportsservice.pattern.domain.validators.ReportBasicInformationsValidator;
 import jakarta.persistence.Column;
@@ -35,7 +35,7 @@ public class ReportPatternInfo {
         this.description = description;
         this.subsystem = subsystem;
         this.generationType = generationType;
-        test(this, new ThrowingValidationExceptionHandler());
+        test(this, ValidationHandlers.throwingValidationExceptionHandler());
     }
 
     public boolean dbGeneration() {
