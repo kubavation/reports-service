@@ -25,11 +25,12 @@ public class ScheduledReport {
     @Embedded
     private ReportCreationStatus status;
 
-    private LocalDateTime at;
+    @Column(name = "SCHEDULED_AT")
+    private LocalDateTime scheduleAt;
 
-    public ScheduledReport(Long reportId, LocalDateTime at) {
+    public ScheduledReport(Long reportId, LocalDateTime scheduleAt) {
         this.reportId = reportId;
-        this.at = at;
+        this.scheduleAt = scheduleAt;
     }
 
     public ScheduledReport markAsStarted() {

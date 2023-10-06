@@ -2,14 +2,14 @@ package com.durys.jakub.reportsservice.pattern.application.handler;
 
 import com.durys.jakub.reportsservice.common.exception.ValidationHandlers;
 import com.durys.jakub.reportsservice.common.model.OperationResult;
+import com.durys.jakub.reportsservice.common.transaction.Tx;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPatternInfo;
+import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
 import com.durys.jakub.reportsservice.pattern.domain.command.CreateReportPatternCommand;
 import com.durys.jakub.reportsservice.pattern.filestorage.FilePatternRepository;
-import com.durys.jakub.reportsservice.pattern.domain.ReportPatternRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,32 +20,36 @@ public class CreateReportPatternCommandHandler implements CommandHandler<CreateR
 
     private final ReportPatternRepository reportPatternRepository;
     private final FilePatternRepository filePatternRepository;
+    private final Tx tx;
 
     @Override
-    @Transactional
     public OperationResult handle(CreateReportPatternCommand command) {
 
-        log.info("creating report pattern");
+        return tx.execute(status -> {
 
-        var handler = ValidationHandlers.aggregatingValidationExceptionHandler();
+            log.info("creating report pattern");
 
-        ReportPatternInfo.test(command.name(), command.description(), command.subsystem(), handler);
+            var handler = ValidationHandlers.aggregatingValidationExceptionHandler();
 
-        if (handler.hasErrors()) {
-            return OperationResult.failure(handler.errorMessages());
-        }
+            ReportPatternInfo.test(command.name(), command.description(), command.subsystem(), handler);
 
-        ReportPattern reportPattern = reportPatternRepository
-                .save(new ReportPattern(
-                        new ReportPatternInfo(command.name(), command.description(), command.subsystem()), command.file()));
+            if (handler.hasErrors()) {
+                return OperationResult.failure(handler.errorMessages());
+            }
 
-        command.parameters()
-                .forEach(parameter -> reportPattern.addParameter(parameter.getName(), parameter.getType()));
+            ReportPattern reportPattern = reportPatternRepository
+                    .save(new ReportPattern(
+                            new ReportPatternInfo(command.name(), command.description(), command.subsystem()), command.file()));
 
-        ReportPattern saved = reportPatternRepository.save(reportPattern);
+            command.parameters()
+                    .forEach(parameter -> reportPattern.addParameter(parameter.getName(), parameter.getType()));
 
-        filePatternRepository.store(saved, command.file());
+            ReportPattern saved = reportPatternRepository.save(reportPattern);
 
-        return OperationResult.success();
+            filePatternRepository.store(saved, command.file());
+
+            return OperationResult.success();
+        });
+
     }
 }

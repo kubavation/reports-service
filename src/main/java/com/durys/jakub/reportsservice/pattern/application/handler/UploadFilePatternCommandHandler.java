@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.pattern.application.handler;
 
+import com.durys.jakub.reportsservice.common.transaction.Tx;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandler;
 import com.durys.jakub.reportsservice.cqrs.command.CommandHandling;
 import com.durys.jakub.reportsservice.pattern.domain.ReportPattern;
@@ -17,20 +18,24 @@ public class UploadFilePatternCommandHandler implements CommandHandler<UploadFil
 
     private final ReportPatternRepository reportPatternRepository;
     private final FilePatternRepository filePatternRepository;
+    private final Tx tx;
 
     @Override
-    @Transactional
     public Void handle(UploadFilePatternCommand command) {
 
-        log.info("uploading file pattern (ID: {})", command.patternId());
+        return tx.execute(status -> {
 
-        ReportPattern entity = reportPatternRepository.findById(command.patternId())
-                .map(pattern -> pattern.withPatternFile(command.file()))
-                .map(reportPatternRepository::save)
-                .orElseThrow(RuntimeException::new);
+            log.info("uploading file pattern (ID: {})", command.patternId());
 
-        filePatternRepository.store(entity, command.file());
+            ReportPattern entity = reportPatternRepository.findById(command.patternId())
+                    .map(pattern -> pattern.withPatternFile(command.file()))
+                    .map(reportPatternRepository::save)
+                    .orElseThrow(RuntimeException::new);
 
-        return null;
+            filePatternRepository.store(entity, command.file());
+
+            return null;
+        });
+
     }
 }
