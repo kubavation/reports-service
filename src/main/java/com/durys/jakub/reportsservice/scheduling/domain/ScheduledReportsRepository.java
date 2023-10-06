@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface ScheduledReportsRepository extends JpaRepository<ScheduledReport, Long> {
@@ -22,4 +23,6 @@ public interface ScheduledReportsRepository extends JpaRepository<ScheduledRepor
            join ScheduledReport sr on sr.reportId = r.id
            """)
     List<ScheduledReportDTO> findAllScheduled();
+
+    Optional<ScheduledReport> findByReportId(Long reportId);
 }

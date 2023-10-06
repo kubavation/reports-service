@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,17 +57,6 @@ public class Report {
 
     public Report withParameters(Set<ReportParameter> parameters) {
         this.parameters = parameters;
-        return this;
-    }
-
-
-    public Report markAsFailed() {
-        this.status = new ReportCreationStatus(ReportCreationStatus.Status.FAILURE, LocalDateTime.now());
-        return this;
-    }
-
-    public Report markAsSucceeded() {
-        this.status = new ReportCreationStatus(ReportCreationStatus.Status.SUCCESS, LocalDateTime.now());
         return this;
     }
 

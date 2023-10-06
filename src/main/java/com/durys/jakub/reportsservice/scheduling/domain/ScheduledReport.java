@@ -37,4 +37,14 @@ public class ScheduledReport {
         return this;
     }
 
+    public ScheduledReport markAsGenerated() {
+        this.status = ReportCreationStatus.valueOf(SUCCESS, LocalDateTime.now());
+        return this;
+    }
+
+    public ScheduledReport markAsFailed() {
+        this.status = ReportCreationStatus.valueOf(FAILURE, LocalDateTime.now());
+        return this;
+    }
+
 }

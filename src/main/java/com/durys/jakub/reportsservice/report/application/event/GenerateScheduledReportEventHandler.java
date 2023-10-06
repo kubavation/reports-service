@@ -5,9 +5,12 @@ import com.durys.jakub.notificationclient.api.model.Notification;
 import com.durys.jakub.notificationclient.api.model.NotificationType;
 import com.durys.jakub.notificationclient.api.model.TenantId;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
+import com.durys.jakub.reportsservice.event.EventPublisher;
 import com.durys.jakub.reportsservice.report.domain.Report;
 import com.durys.jakub.reportsservice.report.domain.ReportRepository;
 import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
+import com.durys.jakub.reportsservice.report.domain.event.ScheduledReportFaulitilyGeneratedEvent;
+import com.durys.jakub.reportsservice.report.domain.event.ScheduledReportSuccessfullyGeneratedEvent;
 import com.durys.jakub.reportsservice.report.infrastructure.in.model.ReportCreationParam;
 import com.durys.jakub.reportsservice.scheduling.domain.event.GenerateScheduledReportEvent;
 import com.durys.jakub.reportsservice.sharedkernel.model.GeneratedFile;
@@ -29,6 +32,7 @@ public class GenerateScheduledReportEventHandler {
     private final ReportRepository reportRepository;
     private final CommandGateway commandGateway;
     private final NotificationClient notificationClient;
+    private final EventPublisher eventPublisher;
 
     @EventListener
     @Async
@@ -40,6 +44,8 @@ public class GenerateScheduledReportEventHandler {
                 .orElseThrow(RuntimeException::new);
 
         generate(report)
+                .peekLeft(response -> eventPublisher.emit(new ScheduledReportFaulitilyGeneratedEvent(response.getId())))
+                .peek(response -> eventPublisher.emit(new ScheduledReportSuccessfullyGeneratedEvent(response.getId())))
                 .peek(rep -> notificationClient.send(
                         new Notification(new TenantId(rep.getTenantId().toString()),
                         "Report successfully created", "Report successfully created", List.of(NotificationType.APP))))
@@ -66,9 +72,12 @@ public class GenerateScheduledReportEventHandler {
                             report.getTitle(),
                             report.getDescription()));
 
-            return Either.right(reportRepository.save(report.with(generated.fileName(), generated.file()).markAsSucceeded()));
+            return Either.right(
+                    reportRepository.save(
+                            report.with(generated.fileName(), generated.file())));
+
         } catch (Exception e) {
-            return Either.left(reportRepository.save(report.markAsFailed()));
+            return Either.left(report);
         }
     }
 }
