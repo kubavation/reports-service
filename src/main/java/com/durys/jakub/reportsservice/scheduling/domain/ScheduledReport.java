@@ -25,6 +25,7 @@ public class ScheduledReport {
     @Embedded
     private ReportCreationStatus status;
 
+    @Column(name = "SCHEDULED_AT")
     private LocalDateTime scheduleAt;
 
     public ScheduledReport(Long reportId, LocalDateTime scheduleAt) {

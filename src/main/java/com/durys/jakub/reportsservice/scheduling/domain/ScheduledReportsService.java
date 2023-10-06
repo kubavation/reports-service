@@ -33,7 +33,7 @@ class ScheduledReportsService {
 
       Set<ScheduledReport> scheduled = scheduledReportsRepository.findScheduled(java.sql.Date.valueOf(LocalDate.now()))
               .stream()
-              .filter(scheduledReport -> !scheduledReport.getAt().isAfter(now))
+              .filter(scheduledReport -> !scheduledReport.getScheduleAt().isAfter(now))
               .map(ScheduledReport::markAsStarted)
               .collect(Collectors.toSet());
 
