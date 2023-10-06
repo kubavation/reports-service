@@ -12,7 +12,7 @@ import java.util.Set;
 public interface ScheduledReportsRepository extends JpaRepository<ScheduledReport, Long> {
 
     @Query(value = "SELECT sr.* FROM REP_SCHEDULED_REPORT sr " +
-            "INNER JOIN REP_REPORT r on sr.report_id = r.id where TO_CHAR(r.scheduled_at, 'yyyy-mm-dd') = :at ", nativeQuery = true)
+            "INNER JOIN REP_REPORT r on sr.report_id = r.id where TO_CHAR(sr.scheduled_at, 'yyyy-mm-dd') = :at ", nativeQuery = true)
     Set<ScheduledReport> findScheduled(Date at);
 
     @Query("""
