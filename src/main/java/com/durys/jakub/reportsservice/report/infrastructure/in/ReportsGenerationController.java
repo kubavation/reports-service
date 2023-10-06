@@ -1,5 +1,6 @@
 package com.durys.jakub.reportsservice.report.infrastructure.in;
 
+import com.durys.jakub.reportsservice.common.zip.Zip;
 import com.durys.jakub.reportsservice.cqrs.command.CommandGateway;
 import com.durys.jakub.reportsservice.report.domain.command.DownloadReportCommand;
 import com.durys.jakub.reportsservice.report.domain.command.GenerateReportCommand;
@@ -20,6 +21,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -49,6 +53,33 @@ public class ReportsGenerationController {
                 .contentLength(generated.file().length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(generated.file()));
+    }
+
+    @Operation(summary = "Group generation of reports")
+    @ApiResponse(responseCode = "200", description = "Reports generated")
+    @PostMapping("/group-generation")
+    public ResponseEntity<Resource> groupGeneration(@Parameter(description = "Report type with params")
+                                             @RequestBody List<ReportCreation> reports) throws Exception {
+
+        List<GenerateReportCommand> commands = reports.stream()
+                .map(report ->
+                        new GenerateReportCommand(
+                                report.getReportName(),
+                                report.getSubsystem(),
+                                report.getFormat(),
+                                report.getParameters(),
+                                report.getTitle(),
+                                report.getDescription())).toList();
+
+        List<GeneratedFile> generatedFiles = commandGateway.dispatchAll(commands);
+
+        GeneratedFile pack = Zip.pack(generatedFiles);
+
+        return ResponseEntity.ok()
+                .headers(ReportHeadersFactory.generate(pack))
+                .contentLength(pack.file().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(pack.file()));
     }
 
     @Operation(summary = "Scheduling generation of report")
